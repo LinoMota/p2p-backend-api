@@ -1,0 +1,37 @@
+{
+  "name": "poc-hexa",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "start:dev": "ts-node src/index.ts",
+    "build": "tsc",
+    "prepare": "husky install",
+    "test": "jest --runInBand --passWithNoTests --verbose",
+    "test:staged": "npm test -- --findRelatedTests",
+    "test:dev": "npm test -- --watch",
+    "test:ci": "npm test -- --coverage=true"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^27.4.0",
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^7.32.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jest": "^26.1.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.2.0",
+    "git-commit-msg-linter": "^4.0.7",
+    "husky": "^7.0.4",
+    "jest": "^27.5.1",
+    "lint-staged": "^12.3.4",
+    "ts-jest": "^27.1.3",
+    "ts-node": "^10.5.0",
+    "typescript": "^4.5.5"
+  }
+}
