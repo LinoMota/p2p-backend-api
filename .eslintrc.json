@@ -16,6 +16,13 @@
     "@typescript-eslint",
     "jest"
   ],
-  "rules": {},
+  "rules": {
+    "space-before-function-paren": "off",
+    "comma-dangle": [
+      "error",
+      "always-multiline"
+    ],
+    "no-useless-constructor": "off"
+  },
   "root": true
 }

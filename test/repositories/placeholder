@@ -1,0 +1,7 @@
+describe('abre o cu', () => {
+  it('should be abrir o cu', () => {
+    expect('ain').toBe('ain')
+    expect('come').toBe('come')
+    expect('vain').toBe('vain')
+  })
+})

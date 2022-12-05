@@ -1,21 +1,53 @@
 {
   "compilerOptions": {
+    "experimentalDecorators": true,
     "target": "es2016",
-    "lib": [
-      "ESNext"
-    ],
     "module": "commonjs",
-    "rootDir": "src",
+    "rootDir": "./src",
     "outDir": "./dist",
+    "lib": [
+      "ES2020"
+    ],
+    "moduleResolution": "node",
+    "paths": {
+      "@entities/*": [
+        "domain/entities/*"
+      ],
+      "@presentation/*": [
+        "presentation/*"
+      ],
+      "@use-cases/*": [
+        "domain/use-cases/*"
+      ],
+      "@repositories/*": [
+        "infra/repositories/*"
+      ],
+      "@controllers/*": [
+        "controllers/*"
+      ],
+      "@iuse-cases/*": [
+        "domain/use-cases/*"
+      ],
+      "@irepositories/*": [
+        "interfaces/repositories/*"
+      ],
+      "@infra/*": [
+        "infra/*"
+      ],
+      "@common-exception/*": [
+        "common/exception/*"
+      ],
+    },
+    "sourceMap": true,
+    "baseUrl": "src",
+    "allowJs": false,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "emitDecoratorMetadata": true
   },
   "include": [
     "src/**/*.ts"
-  ],
-  "exclude": [
-    "./dist"
   ]
 }
