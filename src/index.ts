@@ -1,1 +1,4 @@
-console.log(1)
+import 'reflect-metadata'
+import { bootstrapper } from './infra/bootstrapper'
+
+bootstrapper()

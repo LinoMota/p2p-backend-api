@@ -3,8 +3,9 @@ export default {
   collectCoverage: false,
   coverageDirectory: 'coverage',
   coverageProvider: 'v8',
-  rootDir: 'src/',
+  roots: ['src/', 'test/'],
+  setupFiles: ['./test/jest.setup.ts'],
   transform: {
-    '.+\\.ts$': 'ts-jest'
-  }
+    '.+\\.ts$': 'ts-jest',
+  },
 }
