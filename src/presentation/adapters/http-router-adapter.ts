@@ -20,7 +20,5 @@ export const httpRouterAdapter = (controller: Controller) => {
     if (endpointResponse instanceof SucessfulResponse) {
       expressResponse.status(code).json(endpointResponse.data)
     }
-
-    // expressResponse.status(500).json({ message: 'Internal Server Error' })
   }
 }

@@ -1,6 +1,5 @@
-// import ErrorResponse from '@/controllers/responses/ErrorResponse'
-import SucessfulResponse from '@/controllers/responses/SucessfulResponse'
+import { ErrorResponse, SucessfulResponse } from '@presentation/util'
 
 export interface Controller {
-  handle(request: object): Promise<SucessfulResponse>
+  handle(request: object): Promise<SucessfulResponse | ErrorResponse>
 }

@@ -1,4 +1,4 @@
 export interface Response {
-  statusCode: number
+  code: number
   body?: object
 }
