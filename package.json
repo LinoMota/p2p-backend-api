@@ -4,15 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node dist/index.js",
-    "start:dev": "nodemon",
     "build": "rimraf -rf ./dist && tsc && tsc-alias -p tsconfig.json",
-    "prepare": "husky install",
     "test": "jest --runInBand --passWithNoTests --verbose",
     "test:staged": "npm test -- --findRelatedTests",
-    "test:dev": "npm test -- --watch",
     "test:ci": "npm test -- --coverage=true",
-    "lint": "eslint --ext .ts src"
+    "test:dev": "npm test -- --watch",
+    "start": "node dist/index.js",
+    "lint": "eslint --ext .ts src",
+    "prepare": "husky install",
+    "start:dev": "nodemon"
   },
   "keywords": [],
   "author": "",
