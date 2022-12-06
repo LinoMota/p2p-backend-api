@@ -13,6 +13,12 @@
       "@entities/*": [
         "domain/entities/*"
       ],
+      "@common/*": [
+        "common/*"
+      ],
+      "@interfaces/*": [
+        "interfaces/*"
+      ],
       "@presentation/*": [
         "presentation/*"
       ],
@@ -37,12 +43,19 @@
       "@common-exception/*": [
         "common/exception/*"
       ],
+      "@domain-exception/*": [
+        "domain/exception/*"
+      ],
+      "@validation-schemas/*": [
+        "domain/validation/schemas/*"
+      ],
     },
     "sourceMap": true,
     "baseUrl": "src",
     "allowJs": false,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
     "strict": true,
     "skipLibCheck": true,
     "emitDecoratorMetadata": true

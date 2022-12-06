@@ -1,6 +1,5 @@
-import { Request } from './Request'
-import { Response } from './Response'
+import { ErrorResponse, SucessfulResponse } from '@presentation/util'
 
 export interface Middleware {
-  handle(request: Request): Promise<Response>
+  handle(request: object): SucessfulResponse | ErrorResponse | Promise<SucessfulResponse | ErrorResponse>
 }
