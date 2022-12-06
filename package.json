@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/index.js",
     "start:dev": "nodemon",
-    "build": "tsc",
+    "build": "rimraf -rf ./dist && tsc && tsc-alias -p tsconfig.json",
     "prepare": "husky install",
     "test": "jest --runInBand --passWithNoTests --verbose",
     "test:staged": "npm test -- --findRelatedTests",
@@ -47,6 +47,7 @@
     "express-pino-logger": "^7.0.0",
     "joi": "^17.7.0",
     "reflect-metadata": "^0.1.13",
+    "tsc-alias": "^1.8.1",
     "tsyringe": "^4.7.0"
   }
 }
