@@ -40,7 +40,7 @@ export default async (router: Router): Promise<Router> => {
 
   router.post('/user/create', httpMiddlewareAdapter(createUserValidator), httpRouterAdapter(createUserController))
 
-  router.get(
+  router.post(
     '/user/me',
     httpMiddlewareAdapter(jwtTokenValidator),
     httpRouterAdapter(getUserController),

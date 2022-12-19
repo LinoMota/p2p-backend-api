@@ -3,13 +3,10 @@ import { ErrorResponse, SucessfulResponse } from '@presentation/util'
 import GetUser from '@use-cases/GetUser'
 import BaseError from 'common/BaseError'
 import { container } from 'tsyringe'
-
-type payload = {
-  authorization: string
-}
-
 export namespace GetUserControllerNamespace {
-  export type Request = Partial<payload>
+  export type Request = {
+    authorization: string
+  }
 }
 
 export default class GetUserController implements Controller {

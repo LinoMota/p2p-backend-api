@@ -18,6 +18,6 @@ export default class JwtTokenValidator implements Middleware {
 
     if (res instanceof BaseError) return new ErrorResponse(res)
 
-    return new SucessfulResponse({})
+    return new SucessfulResponse(request)
   }
 }
