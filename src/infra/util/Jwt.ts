@@ -16,12 +16,17 @@ export default class Jwt implements IJWTHelper {
   }
 
   sign(data: any, options: JwtSettings): string {
-    return jwt.sign(data, this.secret, options)
+    return jwt.sign(data, this.secret, {
+      ...options,
+      algorithm: 'HS256',
+    })
   }
 
   verify(token: string): any {
     try {
-      return jwt.verify(token, this.secret)
+      return jwt.verify(token, this.secret, {
+        algorithms: ['HS256'],
+      })
     } catch (e) {
       return undefined
     }
