@@ -17,6 +17,6 @@ export default class CreateUserController implements Controller {
 
     if (res instanceof BaseError) return new ErrorResponse(res)
 
-    return new SucessfulResponse(res)
+    return new SucessfulResponse(res, 201)
   }
 }

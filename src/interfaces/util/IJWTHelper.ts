@@ -25,4 +25,5 @@ export interface JwtSettings {
 export default interface IJWTHelper {
   sign(data: any, settings: JwtSettings): string
   verify(token: string): any
+  decode(token: string): any
 }

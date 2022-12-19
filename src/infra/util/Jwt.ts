@@ -11,6 +11,10 @@ export default class Jwt implements IJWTHelper {
     this.secret = secret
   }
 
+  decode (token: string) {
+    return this.verify(token)
+  }
+
   sign(data: any, options: JwtSettings): string {
     return jwt.sign(data, this.secret, options)
   }

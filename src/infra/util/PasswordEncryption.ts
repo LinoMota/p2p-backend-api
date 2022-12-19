@@ -7,7 +7,7 @@ export default class PasswordEncryption implements IPasswordEncryption {
     return password.split('').reverse().join('')
   }
 
-  compare(password: string, encryptedPassword: string): boolean {
-    return password === encryptedPassword
+  compare(purePassword: string, encryptedPassword: string): boolean {
+    return this.encrypt(purePassword) === encryptedPassword
   }
 }

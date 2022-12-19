@@ -6,7 +6,7 @@ import { container, injectable } from 'tsyringe'
 
 export namespace AuthenticateUserControllerNamespace {
   export type Request = {
-    token: string
+    authorization: string
   }
 }
 
@@ -17,12 +17,10 @@ export default class ValidateJwtTokenController implements Controller {
   async handle(request: AuthenticateUserControllerNamespace.Request): Promise<SucessfulResponse | ErrorResponse> {
     const authenticateUser = container.resolve(AuthenticateUser)
 
-    const res = {
-      isValid: await authenticateUser.validateToken(request.token),
-    }
+    const res = await authenticateUser.validateToken(request.authorization)
 
     if (res instanceof BaseError) return new ErrorResponse(res)
 
-    return new SucessfulResponse(res)
+    return new SucessfulResponse({ isValid: true })
   }
 }

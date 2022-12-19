@@ -1,18 +1,36 @@
 import User from '@entities/User'
+import FarofaApiClient from '@infra/client/FarofaApiClient'
 import IUserRepository from '@irepositories/IUserRepository'
-import { injectable } from 'tsyringe'
-
-const userDb: User[] = []
+import { inject, injectable } from 'tsyringe'
 
 @injectable()
 export default class UserRepository implements IUserRepository {
-  createUser(user: User): User {
-    const id = (userDb.length + 1).toString()
-    userDb.push({ ...user, id })
-    return { ...user, id }
+  constructor(
+    @inject('FarofaApiClient')
+    private readonly farofaApiClient: FarofaApiClient,
+  ) {}
+
+  async createUser(user: User): Promise<User> {
+    let response
+
+    try {
+      response = await this.farofaApiClient.createUser(user)
+    } catch (error) {
+      console.log(error)
+    }
+
+    return response as unknown as User
   }
 
-  findByEmail(email: string): User | undefined {
-    return userDb.find((user) => user.email === email)
+  async findByEmail(email: string): Promise<User | undefined> {
+    let response
+
+    try {
+      response = await this.farofaApiClient.getUserByEmail(email) as unknown as User
+    } catch (error) {
+      console.log(error)
+    }
+
+    return response as User
   }
 }
