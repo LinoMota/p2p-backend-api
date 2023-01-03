@@ -4,15 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node dist/index.js",
-    "start:dev": "nodemon",
     "build": "rimraf -rf ./dist && tsc && tsc-alias -p tsconfig.json",
-    "prepare": "husky install",
     "test": "jest --runInBand --passWithNoTests --verbose",
     "test:staged": "npm test -- --findRelatedTests",
-    "test:dev": "npm test -- --watch",
     "test:ci": "npm test -- --coverage=true",
-    "lint": "eslint --ext .ts src"
+    "test:dev": "npm test -- --watch",
+    "start": "node dist/index.js",
+    "lint": "eslint --ext .ts src",
+    "prepare": "husky install",
+    "start:dev": "nodemon"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +23,7 @@
     "@types/express-pino-logger": "^4.0.3",
     "@types/jest": "^27.4.0",
     "@types/joi": "^17.2.3",
+    "@types/jsonwebtoken": "^8.5.9",
     "@typescript-eslint/eslint-plugin": "^5.12.0",
     "@typescript-eslint/parser": "^5.12.0",
     "eslint": "^7.32.0",
@@ -41,11 +42,13 @@
     "typescript": "^4.5.5"
   },
   "dependencies": {
+    "axios": "^1.2.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-pino-logger": "^7.0.0",
     "joi": "^17.7.0",
+    "jsonwebtoken": "^8.5.1",
     "reflect-metadata": "^0.1.13",
     "tsc-alias": "^1.8.1",
     "tsyringe": "^4.7.0"

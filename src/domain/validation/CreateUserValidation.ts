@@ -10,8 +10,12 @@ class CreateUserValidation implements ICreateUserValidator {
     private readonly repository: IUserRepository,
   ) {}
 
-  emailExists(data: User): boolean | Promise<boolean> {
-    const user = this.repository.findByEmail(data.email)
+  async emailExists(data: User): Promise<boolean> {
+    let user
+    try {
+      user = await this.repository.findByEmail(data.email)
+    } catch (error) {}
+
     return user !== undefined
   }
 }

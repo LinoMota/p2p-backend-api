@@ -1,4 +1,3 @@
-
 import { injectable, inject } from 'tsyringe'
 
 import User from '@entities/User'
@@ -7,6 +6,7 @@ import ICreateUser from '@interfaces/use-cases/ICreateUser'
 import IPasswordEncryption from '@interfaces/util/IPasswordEncryption'
 import ICreateUserValidator from '@interfaces/validation/ICreateUserValidator'
 import EmailExistsException from '../exception/EmailExistsException'
+import CouldNotCreateUserException from '@domain-exception/CouldNotCreateUserException'
 
 @injectable()
 export default class CreateUser implements ICreateUser {
@@ -19,14 +19,22 @@ export default class CreateUser implements ICreateUser {
     private readonly validator: ICreateUserValidator,
   ) {}
 
-  async create(data: Partial<User>): Promise<User | EmailExistsException> {
-    if (this.validator.emailExists(data)) return new EmailExistsException()
+  async create(data: Partial<User>): Promise<User | EmailExistsException | CouldNotCreateUserException> {
+    const emailExists = await this.validator.emailExists(data)
+
+    if (emailExists) return new EmailExistsException()
 
     const newUser = {
       ...(data as User),
       password: this.encryption.encrypt(data.password || ''),
     }
 
-    return this.repository.createUser(newUser)
+    const persistedUser = await this.repository.createUser(newUser)
+
+    if (persistedUser === undefined) {
+      return new CouldNotCreateUserException()
+    }
+
+    return persistedUser as unknown as User
   }
 }

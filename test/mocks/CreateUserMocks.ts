@@ -1,7 +1,7 @@
-import User from '@entities/User'
-import IUserRepository from '@interfaces/repositories/IUserRepository'
-import IPasswordEncryption from '@interfaces/util/IPasswordEncryption'
-import ICreateUserValidator from '@interfaces/validation/ICreateUserValidator'
+import User from '../../src/domain/entities/User'
+import IUserRepository from '../../src/interfaces/repositories/IUserRepository'
+import IPasswordEncryption from '../../src/interfaces/util/IPasswordEncryption'
+import ICreateUserValidator from '../../src/interfaces/validation/ICreateUserValidator'
 
 export const defaultUser: Partial<User> = {
   name: 'any_name',
@@ -15,7 +15,7 @@ export class EncryptionMock implements IPasswordEncryption {
   }
 
   compare(password: string, encryptedPassword: string): boolean {
-    return password === encryptedPassword
+    return this.encrypt(password) === encryptedPassword
   }
 }
 
@@ -29,11 +29,11 @@ const userDb: User[] = [
 ]
 
 export class UserRepositoryMock implements IUserRepository {
-  findByEmail(email: string): User | undefined {
+  async findByEmail(email: string): Promise<User | undefined> {
     return userDb.find((user) => user.email === email)
   }
 
-  createUser(newUser: User) {
+  async createUser(newUser: User) {
     return { ...newUser, id: 'any_id' }
   }
 }
@@ -45,7 +45,7 @@ export class CreateUserValidationMock implements ICreateUserValidator {
     this.repository = repository
   }
 
-  emailExists(data: Partial<User>): boolean {
+  async emailExists(data: Partial<User>): Promise<boolean> {
     const user = this.repository.findByEmail(data.email)
     return user !== undefined
   }

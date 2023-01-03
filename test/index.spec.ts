@@ -1,6 +1,6 @@
 
 describe('Testing setup', () => {
-  it('hello', () => {
-    expect('oi').toBe('oi')
+  it('should say ok', () => {
+    expect('ok').toBe('ok')
   })
 })
