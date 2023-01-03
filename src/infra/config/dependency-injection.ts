@@ -3,6 +3,7 @@ import { container } from 'tsyringe'
 import UserRepository from '@repositories/UserRepository'
 import PasswordEncryption from '@infra/util/PasswordEncryption'
 import CreateUserValidation from 'domain/validation/CreateUserValidation'
+import UpdateUserValidation from 'domain/validation/UpdateUserValidation'
 import Jwt from '@infra/util/Jwt'
 import FarofaApiClient from '@infra/client/FarofaApiClient'
 
@@ -28,6 +29,10 @@ container.register('IPasswordEncryption', {
   useClass: PasswordEncryption,
 })
 
-container.register('ICreateUserValidator', {
+container.register('ICreateUserValidation', {
   useClass: CreateUserValidation,
+})
+
+container.register('IUpdateUserValidator', {
+  useClass: UpdateUserValidation,
 })

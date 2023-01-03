@@ -1,10 +1,10 @@
-import ICreateUserValidator from 'interfaces/validation/ICreateUserValidator'
+import ICreateUserValidation from '@interfaces/validation/ICreateUserValidation'
 import IUserRepository from '@irepositories/IUserRepository'
 import User from '@entities/User'
 import { inject, injectable } from 'tsyringe'
 
 @injectable()
-class CreateUserValidation implements ICreateUserValidator {
+class CreateUserValidation implements ICreateUserValidation {
   constructor(
     @inject('IUserRepository')
     private readonly repository: IUserRepository,

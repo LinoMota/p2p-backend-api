@@ -13,7 +13,7 @@ export default class GetUserController implements Controller {
   async handle(request: GetUserControllerNamespace.Request): Promise<SucessfulResponse | ErrorResponse> {
     const getUser = container.resolve(GetUser)
 
-    const res = await getUser.getUser(request.authorization || '')
+    const res = await getUser.getUser(request.authorization)
 
     if (res instanceof BaseError) return new ErrorResponse(res)
 

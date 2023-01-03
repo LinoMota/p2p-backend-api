@@ -1,5 +1,5 @@
 import { Middleware } from '@infra/http/definitions'
-import { ErrorResponse, SucessfulResponse } from '@presentation/util'
+import { ErrorResponse } from '@presentation/util'
 import { Request, Response, NextFunction } from 'express'
 
 export const httpHeaderMiddlewareAdapter = (middleware: Middleware) => {
@@ -15,8 +15,6 @@ export const httpHeaderMiddlewareAdapter = (middleware: Middleware) => {
       expressResponse.status(code).json(middlewareResponse)
     }
 
-    if (middlewareResponse instanceof SucessfulResponse) {
-      return next()
-    }
+    return next()
   }
 }

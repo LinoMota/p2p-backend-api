@@ -1,13 +1,14 @@
+import Address from './Address'
 import BankAccount from './BankAccount'
 
 export default interface User {
   id?: string
   name: string
   email: string
-  cpf?: string
-  birthDate?: Date
-  address?: string
-  phone?: string
-  bankAccount?: BankAccount
   password: string
+  cpf?: string
+  phone?: string
+  birthDate?: Date
+  address?: Address
+  bankAccount?: BankAccount
 }

@@ -10,6 +10,18 @@ export default class UserRepository implements IUserRepository {
     private readonly farofaApiClient: FarofaApiClient,
   ) {}
 
+  async updateUser (id: string, data: User): Promise<User | undefined> {
+    let response
+
+    try {
+      response = await this.farofaApiClient.updateUser(id, data)
+    } catch (error) {
+      console.log(error)
+    }
+
+    return response as unknown as User
+  }
+
   async createUser(user: User): Promise<User> {
     let response
 

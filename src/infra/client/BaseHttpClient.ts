@@ -6,6 +6,7 @@ export default abstract class BaseHttpClient {
   constructor(baseUrl: string, config: object) {
     this.instance = axios.create({
       baseURL: baseUrl,
+      timeout: 5000,
       ...config,
     })
   }
