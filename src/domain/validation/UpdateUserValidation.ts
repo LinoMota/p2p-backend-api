@@ -11,9 +11,11 @@ class UpdateUserValidation implements IUpdateUserValidation {
 
   async userExists(id: string): Promise<boolean> {
     let user
+
     try {
       user = await this.repository.findByEmail(id)
     } catch (error) {}
+
     return user !== undefined
   }
 }
