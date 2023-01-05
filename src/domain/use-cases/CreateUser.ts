@@ -4,7 +4,7 @@ import User from '@entities/User'
 import IUserRepository from '@irepositories/IUserRepository'
 import ICreateUser from '@interfaces/use-cases/ICreateUser'
 import IPasswordEncryption from '@interfaces/util/IPasswordEncryption'
-import ICreateUserValidator from '@interfaces/validation/ICreateUserValidator'
+import ICreateUserValidation from '@interfaces/validation/ICreateUserValidation'
 import EmailExistsException from '../exception/EmailExistsException'
 import CouldNotCreateUserException from '@domain-exception/CouldNotCreateUserException'
 
@@ -15,8 +15,8 @@ export default class CreateUser implements ICreateUser {
     private readonly repository: IUserRepository,
     @inject('IPasswordEncryption')
     private readonly encryption: IPasswordEncryption,
-    @inject('ICreateUserValidator')
-    private readonly validator: ICreateUserValidator,
+    @inject('ICreateUserValidation')
+    private readonly validator: ICreateUserValidation,
   ) {}
 
   async create(data: Partial<User>): Promise<User | EmailExistsException | CouldNotCreateUserException> {

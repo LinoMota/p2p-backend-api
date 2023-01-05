@@ -4,10 +4,13 @@ import { Request, Response } from 'express'
 
 export const httpRouterAdapter = (controller: Controller) => {
   return async (expressRequest: Request, expressResponse: Response) => {
+    const authorization = expressRequest.headers.authorization
+
     const request = {
       ...(expressRequest.body || {}),
       ...(expressRequest.params || {}),
       ...(expressRequest.query || {}),
+      ...(authorization ? { authorization } : {}),
     }
     const endpointResponse = await controller.handle(request)
 

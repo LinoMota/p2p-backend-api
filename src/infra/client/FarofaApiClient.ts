@@ -16,6 +16,11 @@ export default class FarofaApiClient extends BaseHttpClient {
     return response
   }
 
+  public async updateUser(id: string, user: Partial<User>): Promise<Object | undefined> {
+    const response = await this.put(`${this.baseUrl}/user/${id}`, user)
+    return response
+  }
+
   public async getUserByEmail(email: string): Promise<Object | undefined> {
     const response = await this.get(`${this.baseUrl}/user/findByEmail/${email}`)
     return response

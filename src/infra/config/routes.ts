@@ -11,8 +11,12 @@ import AuthenticateUserController from '@presentation/controllers/authenticate-u
 import ValidateJwtTokenController from '@presentation/controllers/authenticate-user/ValidateJwtTokenController'
 import GetUserController from '@presentation/controllers/get-user/GetUserController'
 import JwtTokenValidator from '@infra/middlewares/JwtTokenValidator'
+import { httpHeaderMiddlewareAdapter } from '@presentation/adapters/http-header-middleware-adapter'
+import UpdateUserController from '@presentation/controllers/update-user/UpdateUserController'
 
 export default async (router: Router): Promise<Router> => {
+  const updateUserController = container.resolve(UpdateUserController)
+
   const validateJwtTokenController = container.resolve(ValidateJwtTokenController)
   const validateJwtTokenValidator = new JoiValidator(validateJwtSchema)
 
@@ -38,11 +42,20 @@ export default async (router: Router): Promise<Router> => {
     httpRouterAdapter(authenticateUserController),
   )
 
-  router.post('/user/create', httpMiddlewareAdapter(createUserValidator), httpRouterAdapter(createUserController))
+  router.post('/user/create',
+    httpMiddlewareAdapter(createUserValidator),
+    httpRouterAdapter(createUserController),
+  )
+
+  router.put(
+    '/user/me',
+    httpHeaderMiddlewareAdapter(jwtTokenValidator),
+    httpRouterAdapter(updateUserController),
+  )
 
   router.post(
     '/user/me',
-    httpMiddlewareAdapter(jwtTokenValidator),
+    httpHeaderMiddlewareAdapter(jwtTokenValidator),
     httpRouterAdapter(getUserController),
   )
 
