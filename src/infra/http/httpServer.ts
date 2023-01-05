@@ -7,7 +7,7 @@ export const httpServer = async () => {
   const router = express.Router()
   const appPort = process.env.APP_PORT ?? 5000
 
-  prepareMiddlewares(router)
+  await prepareMiddlewares(router)
   await routerFunction(router)
 
   app.use(router)
