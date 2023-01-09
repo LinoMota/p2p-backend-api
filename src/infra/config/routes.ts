@@ -43,35 +43,17 @@ export default async (router: Router): Promise<Router> => {
     httpRouterAdapter(validateJwtTokenController),
   )
 
-  router.post(
-    '/user/authenticate',
-    httpRouterAdapter(authenticateUserController),
-  )
+  router.post('/user/authenticate', httpRouterAdapter(authenticateUserController))
 
-  router.post('/user/create',
-    httpMiddlewareAdapter(createUserValidator),
-    httpRouterAdapter(createUserController),
-  )
+  router.post('/user/create', httpMiddlewareAdapter(createUserValidator), httpRouterAdapter(createUserController))
 
-  router.get(
-    '/user/me',
-    httpRouterAdapter(getUserController),
-  )
+  router.get('/user/me', httpRouterAdapter(getUserController))
 
-  router.post(
-    '/user/me',
-    httpRouterAdapter(createUserController),
-  )
+  router.post('/user/me', httpRouterAdapter(createUserController))
 
-  router.put(
-    '/user/me',
-    httpRouterAdapter(updateUserController),
-  )
+  router.put('/user/me', httpRouterAdapter(updateUserController))
 
-  router.get(
-    '/brand',
-    httpRouterAdapter(getBrandController),
-  )
+  router.get('/brand', httpRouterAdapter(getBrandController))
 
   router.post(
     '/stock',
@@ -79,16 +61,13 @@ export default async (router: Router): Promise<Router> => {
     httpRouterAdapter(createStockController),
   )
 
-  router.put(
-    '/stock',
-    httpRouterAdapter(updateStockController),
-  )
+  router.put('/stock', httpRouterAdapter(updateStockController))
 
-  router.get(
-    '/user/stocks',
-    httpMiddlewareAdapter(getUserStock),
-    httpRouterAdapter(getStockByUserController),
-  )
+  router.get('/user/stocks', httpMiddlewareAdapter(getUserStock), httpRouterAdapter(getStockByUserController))
+
+  router.get('/healthcheck', (req, res) => {
+    res.status(200).send('OK')
+  })
 
   return router
 }
