@@ -11,6 +11,9 @@ export namespace CreateUserControllerNamespace {
 
 export default class CreateUserController implements Controller {
   async handle(request: CreateUserControllerNamespace.Request): Promise<SucessfulResponse | ErrorResponse> {
+    // @ts-ignore
+    if (request.authorization !== undefined) delete request.authorization
+
     const createUser = container.resolve(CreateUser)
 
     const res = await createUser.create(request)

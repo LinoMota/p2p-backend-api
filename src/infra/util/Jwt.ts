@@ -1,22 +1,23 @@
 import IJWTHelper, { JwtSettings } from '@interfaces/util/IJWTHelper'
-import { inject, injectable } from 'tsyringe'
+import { container, injectable } from 'tsyringe'
+import { Params } from 'express-jwt'
 import jwt from 'jsonwebtoken'
 
 @injectable()
 export default class Jwt implements IJWTHelper {
-  constructor(
-    @inject('JSON_WEB_TOKEN_SECRET')
-    public secret: string,
-  ) {
-    this.secret = secret
+  static jwtConfig: Params = {
+    secret: process.env.JSON_WEB_TOKEN ?? 'default-secret-env',
+    algorithms: ['HS256'],
   }
 
-  decode (token: string) {
+  decode(token: string) {
     return this.verify(token)
   }
 
   sign(data: any, options: JwtSettings): string {
-    return jwt.sign(data, this.secret, {
+    const secret: string = container.resolve('JSON_WEB_TOKEN_SECRET')
+
+    return jwt.sign(data, secret, {
       ...options,
       algorithm: 'HS256',
     })
@@ -24,7 +25,9 @@ export default class Jwt implements IJWTHelper {
 
   verify(token: string): any {
     try {
-      return jwt.verify(token, this.secret, {
+      const secret: string = container.resolve('JSON_WEB_TOKEN_SECRET')
+
+      return jwt.verify(token.replace('Bearer ', ''), secret, {
         algorithms: ['HS256'],
       })
     } catch (e) {
