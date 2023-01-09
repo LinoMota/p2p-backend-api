@@ -60,6 +60,11 @@ export default async (router: Router): Promise<Router> => {
 
   router.post(
     '/user/me',
+    httpRouterAdapter(createUserController),
+  )
+
+  router.put(
+    '/user/me',
     httpRouterAdapter(updateUserController),
   )
 
@@ -70,6 +75,7 @@ export default async (router: Router): Promise<Router> => {
 
   router.post(
     '/stock',
+
     httpRouterAdapter(createStockController),
   )
 
@@ -79,7 +85,7 @@ export default async (router: Router): Promise<Router> => {
   )
 
   router.get(
-    '/user/stocks/',
+    '/user/stocks',
     httpMiddlewareAdapter(getUserStock),
     httpRouterAdapter(getStockByUserController),
   )

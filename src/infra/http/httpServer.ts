@@ -18,6 +18,7 @@ export const httpServer = async () => {
       path: ['/user/authenticate', '/user/create'],
     }),
   )
+
   app.use(router)
 
   app.listen(appPort, () => {

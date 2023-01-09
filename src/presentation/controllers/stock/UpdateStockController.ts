@@ -11,6 +11,9 @@ export namespace UpdateStockControllerNamespace {
 
 export default class UpdateStockController implements Controller {
   async handle(request: UpdateStockControllerNamespace.Request): Promise<SucessfulResponse | ErrorResponse> {
+    // @ts-ignore
+    if (request.authorization !== undefined) delete request.authorization
+
     const updateStock = container.resolve(UpdateStock)
 
     const res = await updateStock.update(request as Stock)

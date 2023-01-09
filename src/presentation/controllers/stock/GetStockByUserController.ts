@@ -4,18 +4,18 @@ import GetStock from '@use-cases/stock/GetStock'
 import BaseError from 'common/BaseError'
 import { container } from 'tsyringe'
 
-export namespace GetUserControllerNamespace {
+export namespace GetStockControllerNamespace {
   export type Request = {
     userId: string
     brand: string
   }
 }
 
-export default class GetUserController implements Controller {
-  async handle(request: GetUserControllerNamespace.Request): Promise<SucessfulResponse | ErrorResponse> {
-    const getUser = container.resolve(GetStock)
+export default class GetStockController implements Controller {
+  async handle(request: GetStockControllerNamespace.Request): Promise<SucessfulResponse | ErrorResponse> {
+    const getStock = container.resolve(GetStock)
 
-    const res = await getUser.findUserStocks(request.userId)
+    const res = await getStock.findUserStocks(request.userId)
 
     if (res instanceof BaseError) return new ErrorResponse(res)
 

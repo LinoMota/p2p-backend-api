@@ -4,6 +4,7 @@ export default interface Stock {
   type: 'in' | 'out'
   quantity: number
   brand: string
+  paymentMethod: string
   state: 'COMPLETED' | 'PENDING' | 'CANCELED'
   value: number
   createdAt?: Date

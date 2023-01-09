@@ -18,6 +18,8 @@ export default class GetUser implements IGetUser {
   async getUser(token: string): Promise<Partial<User> | UserDoesNotExistException | InvalidJWTTokenException> {
     const data = this.jwt.decode(token) as User
 
+    if (!data) return new InvalidJWTTokenException()
+
     const user = await this.repository.findByEmail(data.email)
 
     if (user === undefined) return new UserDoesNotExistException()

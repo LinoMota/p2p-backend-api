@@ -4,9 +4,9 @@ import Stock from '@entities/Stock'
 import IStockRepository from '@interfaces/repositories/IStockRepository'
 
 @injectable()
-export default class GetUser implements IGetStock {
+export default class GetStock implements IGetStock {
   constructor(
-    @inject('IUserRepository')
+    @inject('IStockRepository')
     private readonly repository: IStockRepository,
   ) {}
 

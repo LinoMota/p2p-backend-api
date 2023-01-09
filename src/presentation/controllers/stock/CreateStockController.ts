@@ -11,9 +11,12 @@ export namespace CreateStockControllerNamespace {
 
 export default class CreateStockController implements Controller {
   async handle(request: CreateStockControllerNamespace.Request): Promise<SucessfulResponse | ErrorResponse> {
+    // @ts-ignore
+    if (request.authorization !== undefined) delete request.authorization
+
     const createStock = container.resolve(CreateStock)
 
-    const res = await createStock.create(request)
+    const res = await createStock.create(request as Stock)
 
     if (res instanceof BaseError) return new ErrorResponse(res)
 

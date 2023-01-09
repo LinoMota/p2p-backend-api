@@ -10,11 +10,11 @@ import StockRepository from '@repositories/StockRepostiory'
 import BrandRepository from '@repositories/BrandRepository'
 
 container.register('JSON_WEB_TOKEN_SECRET', {
-  useValue: process.env.JSON_WEB_TOKEN_SECRET || 'default-secret',
+  useValue: process.env.JSON_WEB_TOKEN_SECRET ?? 'default-secret',
 })
 
 container.register('FAROFA_API_URL', {
-  useValue: process.env.FAROFA_API_URL || 'no-url',
+  useValue: process.env.FAROFA_API_URL ?? 'no-url',
 })
 
 container.register('IJWTHelper', { useClass: Jwt })
