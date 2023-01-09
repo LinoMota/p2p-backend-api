@@ -13,7 +13,7 @@ export default class UpdateUserController implements Controller {
   async handle(request: UpdateUserControllerNamespace.Request): Promise<SucessfulResponse | ErrorResponse> {
     const updateUser = container.resolve(UpdateUser)
 
-    const res = await updateUser.update(request)
+    const res = await updateUser.update(request as User)
 
     if (res instanceof BaseError) return new ErrorResponse(res)
 

@@ -5,14 +5,17 @@ import { Router } from 'express'
 import { container } from 'tsyringe'
 import { httpRouterAdapter } from '../../presentation/adapters/http-router-adapter'
 import { createUserSchema } from '@infra/validator/schemas/create-user-schema'
-import { authenticateUserSchema } from '@infra/validator/schemas/authenticate-user-schema'
+
 import { validateJwtSchema } from '@infra/validator/schemas/validate-jwt-token'
 import AuthenticateUserController from '@presentation/controllers/authenticate-user/AuthenticateUserController'
 import ValidateJwtTokenController from '@presentation/controllers/authenticate-user/ValidateJwtTokenController'
 import GetUserController from '@presentation/controllers/get-user/GetUserController'
-import JwtTokenValidator from '@infra/middlewares/JwtTokenValidator'
-import { httpHeaderMiddlewareAdapter } from '@presentation/adapters/http-header-middleware-adapter'
 import UpdateUserController from '@presentation/controllers/update-user/UpdateUserController'
+import GetBrandController from '@presentation/controllers/brand/GetBrandController'
+import CreateStockController from '@presentation/controllers/stock/CreateStockController'
+import UpdateStockController from '@presentation/controllers/stock/UpdateStockController'
+import GetStockByUserController from '@presentation/controllers/stock/GetStockByUserController'
+import { getUserStockSchema } from '@infra/validator/schemas/get-user-stock-schema'
 
 export default async (router: Router): Promise<Router> => {
   const updateUserController = container.resolve(UpdateUserController)
@@ -23,12 +26,16 @@ export default async (router: Router): Promise<Router> => {
   const createUserController = container.resolve(CreateUserController)
   const createUserValidator = new JoiValidator(createUserSchema)
 
+  const getUserStock = new JoiValidator(getUserStockSchema)
+
   const authenticateUserController = container.resolve(AuthenticateUserController)
-  const authenticateUserValidator = new JoiValidator(authenticateUserSchema)
 
   const getUserController = container.resolve(GetUserController)
 
-  const jwtTokenValidator = new JwtTokenValidator()
+  const getBrandController = container.resolve(GetBrandController)
+  const createStockController = container.resolve(CreateStockController)
+  const updateStockController = container.resolve(UpdateStockController)
+  const getStockByUserController = container.resolve(GetStockByUserController)
 
   router.post(
     '/user/validate-token',
@@ -38,7 +45,6 @@ export default async (router: Router): Promise<Router> => {
 
   router.post(
     '/user/authenticate',
-    httpMiddlewareAdapter(authenticateUserValidator),
     httpRouterAdapter(authenticateUserController),
   )
 
@@ -47,16 +53,35 @@ export default async (router: Router): Promise<Router> => {
     httpRouterAdapter(createUserController),
   )
 
-  router.put(
+  router.get(
     '/user/me',
-    httpHeaderMiddlewareAdapter(jwtTokenValidator),
-    httpRouterAdapter(updateUserController),
+    httpRouterAdapter(getUserController),
   )
 
   router.post(
     '/user/me',
-    httpHeaderMiddlewareAdapter(jwtTokenValidator),
-    httpRouterAdapter(getUserController),
+    httpRouterAdapter(updateUserController),
+  )
+
+  router.get(
+    '/brand',
+    httpRouterAdapter(getBrandController),
+  )
+
+  router.post(
+    '/stock',
+    httpRouterAdapter(createStockController),
+  )
+
+  router.put(
+    '/stock',
+    httpRouterAdapter(updateStockController),
+  )
+
+  router.get(
+    '/user/stocks/',
+    httpMiddlewareAdapter(getUserStock),
+    httpRouterAdapter(getStockByUserController),
   )
 
   return router

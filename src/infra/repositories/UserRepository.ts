@@ -10,7 +10,7 @@ export default class UserRepository implements IUserRepository {
     private readonly farofaApiClient: FarofaApiClient,
   ) {}
 
-  async updateUser (id: string, data: User): Promise<User | undefined> {
+  async updateUser(id: string, data: User): Promise<User | undefined> {
     let response
 
     try {
@@ -37,8 +37,10 @@ export default class UserRepository implements IUserRepository {
   async findByEmail(email: string): Promise<User | undefined> {
     let response
 
+    if (email === undefined) return undefined
+
     try {
-      response = await this.farofaApiClient.getUserByEmail(email) as unknown as User
+      response = (await this.farofaApiClient.getUserByEmail(String(email).toLowerCase())) as unknown as User
     } catch (error) {
       console.log(error)
     }

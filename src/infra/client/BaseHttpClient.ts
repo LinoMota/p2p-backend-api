@@ -12,22 +12,22 @@ export default abstract class BaseHttpClient {
   }
 
   public async get(url: string): Promise<Object | undefined> {
-    const response = await axios.get(`${url}`)
+    const response = await this.instance.get(`${url}`)
     return response.data
   }
 
   public async post(url: string, data: Object): Promise<Object | undefined> {
-    const response = await axios.post(`${url}`, data)
+    const response = await this.instance.post(`${url}`, data)
     return response.data
   }
 
   public async put(url: string, data: Object): Promise<Object | undefined> {
-    const response = await axios.put(`${url}`, data)
+    const response = await this.instance.put(`${url}`, data)
     return response.data
   }
 
   public async delete(url: string): Promise<Object | undefined> {
-    const response = await axios.delete(`${url}`)
+    const response = await this.instance.delete(`${url}`)
     return response.data
   }
 }
