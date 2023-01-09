@@ -15,7 +15,7 @@ export const httpServer = async () => {
 
   app.use(
     expressjwt(Jwt.jwtConfig).unless({
-      path: ['/user/authenticate', '/user/create'],
+      path: ['/user/authenticate', '/user/create', '/healthcheck'],
     }),
   )
 
