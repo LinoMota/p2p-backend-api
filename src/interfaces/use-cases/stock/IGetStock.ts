@@ -1,5 +1,6 @@
+import InvalidJWTTokenException from '@domain-exception/InvalidJWTTokenException'
 import Stock from '@entities/Stock'
 
 export default interface IGetStock {
-  findUserStocks(id: string): Promise<Partial<Stock[]> | undefined>
+  findUserStocks(token: string): Promise<Partial<Stock[]> | undefined | InvalidJWTTokenException>
 }

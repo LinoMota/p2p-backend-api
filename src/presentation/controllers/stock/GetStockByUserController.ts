@@ -6,7 +6,7 @@ import { container } from 'tsyringe'
 
 export namespace GetStockControllerNamespace {
   export type Request = {
-    userId: string
+    authorization: string
     brand: string
   }
 }
@@ -15,7 +15,7 @@ export default class GetStockController implements Controller {
   async handle(request: GetStockControllerNamespace.Request): Promise<SucessfulResponse | ErrorResponse> {
     const getStock = container.resolve(GetStock)
 
-    const res = await getStock.findUserStocks(request.userId)
+    const res = await getStock.findUserStocks(request.authorization)
 
     if (res instanceof BaseError) return new ErrorResponse(res)
 
