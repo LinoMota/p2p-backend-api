@@ -29,7 +29,7 @@ export default class AuthenticateUser implements IAuthenticateUser {
     user.password = 'no-password'
 
     return {
-      token: this.jwt.sign(user, { expiresIn: '1h' }),
+      token: this.jwt.sign(user, { expiresIn: '1d' }),
     }
   }
 

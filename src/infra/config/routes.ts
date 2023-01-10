@@ -15,7 +15,6 @@ import GetBrandController from '@presentation/controllers/brand/GetBrandControll
 import CreateStockController from '@presentation/controllers/stock/CreateStockController'
 import UpdateStockController from '@presentation/controllers/stock/UpdateStockController'
 import GetStockByUserController from '@presentation/controllers/stock/GetStockByUserController'
-import { getUserStockSchema } from '@infra/validator/schemas/get-user-stock-schema'
 
 export default async (router: Router): Promise<Router> => {
   const updateUserController = container.resolve(UpdateUserController)
@@ -25,8 +24,6 @@ export default async (router: Router): Promise<Router> => {
 
   const createUserController = container.resolve(CreateUserController)
   const createUserValidator = new JoiValidator(createUserSchema)
-
-  const getUserStock = new JoiValidator(getUserStockSchema)
 
   const authenticateUserController = container.resolve(AuthenticateUserController)
 
@@ -63,7 +60,7 @@ export default async (router: Router): Promise<Router> => {
 
   router.put('/stock', httpRouterAdapter(updateStockController))
 
-  router.get('/user/stocks', httpMiddlewareAdapter(getUserStock), httpRouterAdapter(getStockByUserController))
+  router.get('/user/stocks', httpRouterAdapter(getStockByUserController))
 
   router.get('/healthcheck', (req, res) => {
     res.status(200).send('OK')
