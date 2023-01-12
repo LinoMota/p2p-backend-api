@@ -60,7 +60,7 @@ export default async (router: Router): Promise<Router> => {
     httpRouterAdapter(createStockController),
   )
 
-  router.put('/stock', httpRouterAdapter(updateStockController))
+  router.put('/stock/:id', httpRouterAdapter(updateStockController))
 
   router.get('/user/stocks', httpRouterAdapter(getStockByUserController))
 
