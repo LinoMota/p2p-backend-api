@@ -15,6 +15,7 @@ import GetBrandController from '@presentation/controllers/brand/GetBrandControll
 import CreateStockController from '@presentation/controllers/stock/CreateStockController'
 import UpdateStockController from '@presentation/controllers/stock/UpdateStockController'
 import GetStockByUserController from '@presentation/controllers/stock/GetStockByUserController'
+import GetAllStocksController from '@presentation/controllers/stock/GetAllStocksController'
 
 export default async (router: Router): Promise<Router> => {
   const updateUserController = container.resolve(UpdateUserController)
@@ -30,6 +31,7 @@ export default async (router: Router): Promise<Router> => {
   const getUserController = container.resolve(GetUserController)
 
   const getBrandController = container.resolve(GetBrandController)
+  const getAllStocksController = container.resolve(GetAllStocksController)
   const createStockController = container.resolve(CreateStockController)
   const updateStockController = container.resolve(UpdateStockController)
   const getStockByUserController = container.resolve(GetStockByUserController)
@@ -61,6 +63,8 @@ export default async (router: Router): Promise<Router> => {
   router.put('/stock', httpRouterAdapter(updateStockController))
 
   router.get('/user/stocks', httpRouterAdapter(getStockByUserController))
+
+  router.get('/user/stocksExplorer', httpRouterAdapter(getAllStocksController))
 
   router.get('/healthcheck', (req, res) => {
     res.status(200).send('OK')

@@ -5,4 +5,5 @@ export default interface IStockRepository {
   createStock(data: Stock): Promise<Stock | undefined>
   updateStock(id: string, data: Stock): Promise<Stock | undefined>
   getUserStocks(id : String): Promise<Stock[] | undefined>
+  getAllUsersStocks(exceptionId: String): Promise<Stock[] | undefined>
 }

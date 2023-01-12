@@ -10,6 +10,18 @@ export default class StockRepository implements IStockRepository {
     private readonly farofaApiClient: FarofaApiClient,
   ) {}
 
+  async getAllUsersStocks(exceptionId: String): Promise<Stock[] | undefined> {
+    let response
+
+    try {
+      response = await this.farofaApiClient.get(`/stockExplorer?exceptionId=${exceptionId}`)
+    } catch (error) {
+      console.log(error)
+    }
+
+    return response as unknown as Stock[]
+  }
+
   async findStockById(id: string): Promise<Stock | undefined> {
     let response
 

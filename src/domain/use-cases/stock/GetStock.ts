@@ -15,6 +15,14 @@ export default class GetStock implements IGetStock {
     private readonly jwt: IJWTHelper,
   ) {}
 
+  async findAllUsersStocks (token: string): Promise<(Stock | undefined)[] | InvalidJWTTokenException | undefined> {
+    const data = this.jwt.decode(token) as User
+
+    if (!data) return new InvalidJWTTokenException()
+
+    return await this.repository.getAllUsersStocks(data.id as string)
+  }
+
   async findUserStocks(token: string): Promise<Stock[] | undefined | InvalidJWTTokenException> {
     const data = this.jwt.decode(token) as User
 

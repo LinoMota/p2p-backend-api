@@ -3,4 +3,5 @@ import Stock from '@entities/Stock'
 
 export default interface IGetStock {
   findUserStocks(token: string): Promise<Partial<Stock[]> | undefined | InvalidJWTTokenException>
+  findAllUsersStocks(token: string): Promise<Partial<Stock[]> | undefined | InvalidJWTTokenException>
 }
