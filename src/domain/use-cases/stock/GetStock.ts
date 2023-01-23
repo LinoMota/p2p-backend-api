@@ -17,7 +17,6 @@ export default class GetStock implements IGetStock {
 
   async findOne (token: string, stockId: string): Promise<Partial<Stock> | InvalidJWTTokenException | undefined> {
     const data = this.jwt.decode(token) as User
-
     if (!data) return new InvalidJWTTokenException()
 
     return await this.repository.findStockById(stockId)
@@ -25,7 +24,6 @@ export default class GetStock implements IGetStock {
 
   async findAllUsersStocks (token: string): Promise<(Stock | undefined)[] | InvalidJWTTokenException | undefined> {
     const data = this.jwt.decode(token) as User
-
     if (!data) return new InvalidJWTTokenException()
 
     return await this.repository.getAllUsersStocks(data.id as string)
@@ -33,7 +31,6 @@ export default class GetStock implements IGetStock {
 
   async findUserStocks(token: string): Promise<Stock[] | undefined | InvalidJWTTokenException> {
     const data = this.jwt.decode(token) as User
-
     if (!data) return new InvalidJWTTokenException()
 
     return await this.repository.getUserStocks(data.id as string)
