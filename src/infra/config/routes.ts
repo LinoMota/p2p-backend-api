@@ -16,6 +16,7 @@ import CreateStockController from '@presentation/controllers/stock/CreateStockCo
 import UpdateStockController from '@presentation/controllers/stock/UpdateStockController'
 import GetStockByUserController from '@presentation/controllers/stock/GetStockByUserController'
 import GetAllStocksController from '@presentation/controllers/stock/GetAllStocksController'
+import GetSingleStockController from '@presentation/controllers/stock/GetSingleStockController'
 
 export default async (router: Router): Promise<Router> => {
   const updateUserController = container.resolve(UpdateUserController)
@@ -35,6 +36,7 @@ export default async (router: Router): Promise<Router> => {
   const createStockController = container.resolve(CreateStockController)
   const updateStockController = container.resolve(UpdateStockController)
   const getStockByUserController = container.resolve(GetStockByUserController)
+  const getSingleStockController = container.resolve(GetSingleStockController)
 
   router.post(
     '/user/validate-token',
@@ -54,13 +56,11 @@ export default async (router: Router): Promise<Router> => {
 
   router.get('/brand', httpRouterAdapter(getBrandController))
 
-  router.post(
-    '/stock',
-
-    httpRouterAdapter(createStockController),
-  )
+  router.post('/stock', httpRouterAdapter(createStockController))
 
   router.put('/stock/:id', httpRouterAdapter(updateStockController))
+
+  router.get('/stock/:stockId', httpRouterAdapter(getSingleStockController))
 
   router.get('/user/stocks', httpRouterAdapter(getStockByUserController))
 
