@@ -1,66 +1,21 @@
 {
   "compilerOptions": {
-    "experimentalDecorators": true,
-    "target": "es2016",
     "module": "commonjs",
-    "rootDir": "./src",
-    "outDir": "./dist",
-    "lib": [
-      "ES2020"
-    ],
-    "moduleResolution": "node",
-    "paths": {
-      "@entities/*": [
-        "domain/entities/*"
-      ],
-      "@common/*": [
-        "common/*"
-      ],
-      "@interfaces/*": [
-        "interfaces/*"
-      ],
-      "@presentation/*": [
-        "presentation/*"
-      ],
-      "@use-cases/*": [
-        "domain/use-cases/*"
-      ],
-      "@repositories/*": [
-        "infra/repositories/*"
-      ],
-      "@controllers/*": [
-        "controllers/*"
-      ],
-      "@iuse-cases/*": [
-        "domain/use-cases/*"
-      ],
-      "@irepositories/*": [
-        "interfaces/repositories/*"
-      ],
-      "@infra/*": [
-        "infra/*"
-      ],
-      "@common-exception/*": [
-        "common/exception/*"
-      ],
-      "@domain-exception/*": [
-        "domain/exception/*"
-      ],
-      "@validation-schemas/*": [
-        "domain/validation/schemas/*"
-      ],
-    },
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2017",
     "sourceMap": true,
-    "baseUrl": "src",
-    "allowJs": false,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "strict": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
     "skipLibCheck": true,
-    "emitDecoratorMetadata": true
-  },
-  "include": [
-    "src/**/*.ts"
-  ]
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false
+  }
 }
