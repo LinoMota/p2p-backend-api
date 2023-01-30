@@ -14,6 +14,7 @@ export const getSwaggerConfig = () => {
     .addTag('user')
     .addTag('stock')
     .addTag('wallet')
+    .addTag('brand')
     .addServer(server)
 
   config.addBearerAuth(
