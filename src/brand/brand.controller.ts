@@ -4,7 +4,7 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard'
 import { BrandService } from './brand.service'
 
 @Controller('brand')
-@ApiTags('brands')
+@ApiTags('brand')
 export class BrandController {
   constructor(private readonly brandService: BrandService) {}
 
