@@ -28,4 +28,14 @@ export default class GetUser implements IGetUser {
 
     return userWithoutPassword
   }
+
+  async findByEmail(email: string): Promise<Partial<User> | UserDoesNotExistException> {
+    const user = await this.repository.findByEmail(email)
+
+    if (user === undefined) return new UserDoesNotExistException()
+
+    const { password, ...userWithoutPassword } = user
+
+    return userWithoutPassword
+  }
 }

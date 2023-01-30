@@ -1,0 +1,3 @@
+JSON_WEB_TOKEN_SECRET=default-secret-env
+FAROFA_API_URL=https://vast-pear-hippo-cape.cyclic.app/
+APP_PORT=3000

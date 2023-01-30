@@ -17,6 +17,7 @@ import UpdateStockController from '@presentation/controllers/stock/UpdateStockCo
 import GetStockByUserController from '@presentation/controllers/stock/GetStockByUserController'
 import GetAllStocksController from '@presentation/controllers/stock/GetAllStocksController'
 import GetSingleStockController from '@presentation/controllers/stock/GetSingleStockController'
+import GetUserByEmailController from '@presentation/controllers/get-user/GetUserByEmailController'
 
 export default async (router: Router): Promise<Router> => {
   const updateUserController = container.resolve(UpdateUserController)
@@ -26,6 +27,7 @@ export default async (router: Router): Promise<Router> => {
 
   const createUserController = container.resolve(CreateUserController)
   const createUserValidator = new JoiValidator(createUserSchema)
+  const getUserByEmailController = container.resolve(GetUserByEmailController)
 
   const authenticateUserController = container.resolve(AuthenticateUserController)
 
@@ -65,6 +67,8 @@ export default async (router: Router): Promise<Router> => {
   router.get('/user/stocks', httpRouterAdapter(getStockByUserController))
 
   router.get('/user/stocksExplorer', httpRouterAdapter(getAllStocksController))
+
+  router.get('/user/findByEmail/:email', httpRouterAdapter(getUserByEmailController))
 
   router.get('/healthcheck', (req, res) => {
     res.status(200).send('OK')
