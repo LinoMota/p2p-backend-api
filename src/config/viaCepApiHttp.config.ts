@@ -1,11 +1,11 @@
 import { HttpModuleOptionsFactory } from 'nestjs-http-promise'
 import { environment } from './environment.config'
 
-export class FarofaApiHttpConfig implements HttpModuleOptionsFactory {
+export class ViaCepApiHttpConfig implements HttpModuleOptionsFactory {
   createHttpOptions() {
     return {
       timeout: 5000,
-      baseURL: environment().farofaApiUrl,
+      baseURL: environment().viaCepBaseUrl,
     }
   }
 }
