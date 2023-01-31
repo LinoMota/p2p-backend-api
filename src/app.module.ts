@@ -8,6 +8,7 @@ import { StockModule } from './stock/stock.module'
 import { BrandModule } from './brand/brand.module'
 import { WalletModule } from './wallet/wallet.module'
 import { ViaCepModule } from './via-cep/via-cep.module'
+import { UserBrandModule } from './user-brand/user-brand.module'
 
 @Module({
   imports: [
@@ -16,13 +17,17 @@ import { ViaCepModule } from './via-cep/via-cep.module'
       isGlobal: true,
       load: [environment],
     }),
+
     UserModule,
     AuthModule,
     StockModule,
     BrandModule,
     WalletModule,
     ViaCepModule,
+    UserBrandModule,
   ],
   controllers: [AppController],
+
+
 })
-export class AppModule {}
+export class AppModule { }

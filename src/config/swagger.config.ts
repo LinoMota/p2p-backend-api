@@ -2,7 +2,7 @@ import { DocumentBuilder } from '@nestjs/swagger'
 
 export const getSwaggerConfig = () => {
   const server =
-    process.env.APP_URL || `http://localhost:${process.env.APP_PORT}`
+    process.env.APP_URL || `http://localhost:${process.env.APP_PORT || 3000}`
   const config = new DocumentBuilder()
     .setTitle('P2P Backend Api - OpenAPI')
     .setDescription(
