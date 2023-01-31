@@ -32,6 +32,6 @@ export class CreateStockDto {
   @IsString()
   @IsNotEmpty({ message: 'state is required' })
   @ApiProperty()
-  @IsIn(['COMPLETED', 'PENDING', 'CANCELED'])
-  state: 'COMPLETED' | 'PENDING' | 'CANCELED'
+  @IsIn(['COMPLETED', 'PENDING', 'CANCELED', 'OPEN'])
+  state: 'COMPLETED' | 'PENDING' | 'CANCELED' | 'OPEN'
 }
