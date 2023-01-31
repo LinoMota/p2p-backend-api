@@ -4,6 +4,6 @@ export class Stock {
   type: 'in' | 'out'
   quantity: number
   paymentMethod: 'card' | 'transfer' | 'pix'
-  state: 'COMPLETED' | 'PENDING' | 'CANCELED'
+  state: 'COMPLETED' | 'PENDING' | 'CANCELED' | 'OPEN'
   value: number
 }
