@@ -6,8 +6,8 @@ import { ConfigModule } from '@nestjs/config'
 import { environment } from './config/environment.config'
 import { StockModule } from './stock/stock.module'
 import { BrandModule } from './brand/brand.module'
-import { WalletModule } from './wallet/wallet.module';
-import { ViaCepModule } from './via-cep/via-cep.module';
+import { WalletModule } from './wallet/wallet.module'
+import { ViaCepModule } from './via-cep/via-cep.module'
 
 @Module({
   imports: [
