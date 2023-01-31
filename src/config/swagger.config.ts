@@ -15,6 +15,7 @@ export const getSwaggerConfig = () => {
     .addTag('stock')
     .addTag('wallet')
     .addTag('brand')
+    .addTag('zip-code')
     .addServer(server)
 
   config.addBearerAuth(
