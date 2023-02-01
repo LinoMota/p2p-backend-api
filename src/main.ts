@@ -5,6 +5,7 @@ import { getSwaggerConfig } from './config/swagger.config'
 import { environment } from './config/environment.config'
 
 async function bootstrap() {
+
   const app = await NestFactory.create(AppModule)
 
   SwaggerModule.setup(
