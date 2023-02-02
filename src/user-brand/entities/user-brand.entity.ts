@@ -1,7 +1,8 @@
 export class UserBrand {
-  cpf: string
   name: string
-  numberFidelidy: string
-  amountPoints: number
+  cpf: string
+  brandId: string
+  totalPoints: number
   password: string
+  id: string
 }
