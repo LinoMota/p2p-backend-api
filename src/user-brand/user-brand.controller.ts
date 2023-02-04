@@ -1,4 +1,11 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  HttpException,
+  HttpStatus,
+  Post,
+  UseGuards,
+} from '@nestjs/common'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard'
 import { LoginUserBrandDto } from './dto/login-user-brand.dto'
@@ -12,9 +19,13 @@ export class UserBrandController {
 
   @UseGuards(JwtAuthGuard)
   @Post('authenticate')
-  authenticate(@Body() body: LoginUserBrandDto) {
+  async authenticate(@Body() body: LoginUserBrandDto) {
     const { cpf, password, brandId, userId } = body
 
-    return this.userBrandService.login(cpf, password, brandId, userId)
+    try {
+      return await this.userBrandService.login(cpf, password, brandId, userId)
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.FORBIDDEN)
+    }
   }
 }
