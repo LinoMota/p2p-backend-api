@@ -40,8 +40,6 @@ export class UserBrandService {
 
       const userWallets = await this.walletService.findWalletByUserId(_userId)
 
-      console.log('userWallets', userWallets)
-
       if (userWallets != null && userWallets != '') {
         const walletFiltered: Wallet[] = [userWallets].filter(
           (e) => e.userId === _userId,
