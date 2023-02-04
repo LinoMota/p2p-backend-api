@@ -19,7 +19,7 @@ export class AuthService {
     let user = undefined
 
     try {
-      user = await this.userService.findUserByEmail(email)
+      user = await this.userService.findUserByEmail(email.toLocaleLowerCase())
     } catch (error) {
       throw new NotFoundException('User not found')
     }

@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common'
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { Wallet } from 'src/wallet/entities/wallet.entity'
 import { WalletService } from 'src/wallet/wallet.service'
 import { UserBrand } from './entities/user-brand.entity'
@@ -27,8 +23,10 @@ export class UserBrandService {
       const validatedUser = this.validateUser(userBrand, password, brandId, cpf)
 
       if (!validatedUser) {
-        throw new UnauthorizedException('Invalid password')
+        throw new HttpException('Forbidden', HttpStatus.BAD_REQUEST);
+
       }
+
       const wallet: Wallet = {
         linkedEntityId: brandId,
         userId: _userId,
@@ -39,8 +37,6 @@ export class UserBrandService {
 
       const userWallets = await this.walletService.findWalletByUserId(_userId)
 
-      console.log('userWallets', userWallets)
-
       if (userWallets != null && userWallets != '') {
         const walletFiltered: Wallet[] = [userWallets].filter(
           (e) => e.userId === _userId,
@@ -48,28 +44,25 @@ export class UserBrandService {
         if (walletFiltered.length == 0) {
           await this.walletService.create(wallet)
         } else {
-          throw new UnauthorizedException('Wallet already created')
+          throw new Error('Wallet already created')
         }
       } else {
         await this.walletService.create(wallet)
       }
     } catch (error) {
-      if (error) {
-        return error
-      }
-      throw new NotFoundException('User not found')
+      throw error;
     }
   }
 
   validateUser(
-    user: UserBrand,
+    userBrand: UserBrand,
     password: string,
     brandId: string,
     cpf: string,
   ): boolean {
-    if (user.brandId == brandId) {
-      if (user.cpf == cpf) {
-        if (user.password == password) {
+    if (userBrand.brandId == brandId) {
+      if (userBrand.cpf == cpf) {
+        if (userBrand.password == password) {
           return true
         }
       }
