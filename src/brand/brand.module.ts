@@ -8,7 +8,7 @@ import { FarofaApiHttpConfig } from 'src/config/farofaApiHttp.config'
 @Module({
   imports: [HttpModule.registerAsync({ useClass: FarofaApiHttpConfig })],
   controllers: [BrandController],
-  providers: [BrandService, BrandRepository],
+  providers: [BrandService, BrandRepository,],
   exports: [BrandService, BrandRepository],
 })
-export class BrandModule {}
+export class BrandModule { }

@@ -3,19 +3,46 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common'
+import { Wallet } from 'src/wallet/entities/wallet.entity'
+import { WalletRepository } from 'src/wallet/wallet.repository'
 import { CreateStockDto } from './dto/create-stock.dto'
 import { UpdateStockDto } from './dto/update-stock.dto'
 import { StockRepository } from './stock.repository'
 
 @Injectable()
 export class StockService {
-  constructor(private readonly stockRepository: StockRepository) {}
+  constructor(
+    private readonly stockRepository: StockRepository,
+    private readonly walletRepository: WalletRepository,
+  ) { }
 
   async create(createStockDto: CreateStockDto) {
-    let createdStock = undefined
-
     try {
-      createdStock = await this.stockRepository.createStock(createStockDto)
+      if (createStockDto.type == 'out') {
+        const finded = await this.walletRepository.findWalletByUserId(
+          createStockDto.userId,
+        )
+
+        const walletFiltered: Wallet = [finded].filter(
+          (e) => e.linkedEntityId === createStockDto.brandId,
+        )?.[0]
+
+        console.log(walletFiltered, 'walletFiltered')
+
+        const newBalance = walletFiltered.balance - createStockDto.quantity
+
+        if (newBalance <= 0) {
+          throw new BadRequestException({ message: 'no wallet balance ' })
+        }
+        walletFiltered.balance = newBalance
+
+        await this.walletRepository.updateWallet(
+          walletFiltered.id,
+          walletFiltered,
+        )
+      }
+
+      return await this.stockRepository.createStock(createStockDto)
     } catch (error) {
       const reason = error.response?.data?.message as string[]
       const message = 'Stock not created'
@@ -24,8 +51,6 @@ export class StockService {
         reason ? `${message}: ${reason.join(', ')}` : message,
       )
     }
-
-    return createdStock
   }
 
   async find() {
@@ -37,7 +62,7 @@ export class StockService {
     try {
       stock = await this.stockRepository.findStockById(id)
     } catch (error) {
-      throw new NotFoundException('User not found')
+      throw new NotFoundException('Stock not found')
     }
 
     return stock
@@ -69,7 +94,7 @@ export class StockService {
 
     try {
       await this.stockRepository.deleteStock(id)
-    } catch (error) {}
+    } catch (error) { }
 
     return stock
   }
