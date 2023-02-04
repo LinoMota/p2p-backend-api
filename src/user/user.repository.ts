@@ -1,11 +1,11 @@
-import { Inject, Injectable } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { HttpService } from 'nestjs-http-promise'
 import { PaginationFormat } from 'src/common/paginationFormat'
 import { User } from './entities/user.entity'
 
 @Injectable()
 export class UserRepository {
-  constructor(private readonly httpService: HttpService) {}
+  constructor(private readonly httpService: HttpService) { }
 
   async findUserByEmail(email: string) {
     const { data } = await this.httpService.get(`/user/findByEmail/${email}`)

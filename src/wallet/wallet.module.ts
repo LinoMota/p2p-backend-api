@@ -18,4 +18,4 @@ import { WalletRepository } from './wallet.repository'
   controllers: [WalletController],
   providers: [WalletService, WalletRepository, UserService, BrandService],
 })
-export class WalletModule {}
+export class WalletModule { }

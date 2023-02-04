@@ -8,7 +8,7 @@ import { UpdateStockDto } from './dto/update-stock.dto'
 @ApiBearerAuth('access-token')
 @Controller('stock')
 export class StockController {
-  constructor(private readonly stockService: StockService) {}
+  constructor(private readonly stockService: StockService) { }
 
   @Post()
   create(@Body() createStockDto: CreateStockDto) {

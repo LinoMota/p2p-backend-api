@@ -6,4 +6,5 @@ export class Stock {
   paymentMethod: 'card' | 'transfer' | 'pix'
   state: 'COMPLETED' | 'PENDING' | 'CANCELED' | 'OPEN'
   value: number
+  createdAt: string
 }

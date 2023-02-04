@@ -2,10 +2,8 @@ import {
   Injectable,
   NotFoundException,
   UnauthorizedException,
-   
 } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
-import { UserBrand } from 'src/user-brand/entities/user-brand.entity'
 import { UserBrandService } from 'src/user-brand/user-brand.service'
 import { UserService } from 'src/user/user.service'
 
@@ -15,13 +13,13 @@ export class AuthService {
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
     private readonly userBrandService: UserBrandService,
-  ) {}
+  ) { }
 
   async login(email: string, password: string) {
     let user = undefined
 
     try {
-      user = await this.userService.findUserByEmail(email)
+      user = await this.userService.findUserByEmail(email.toLocaleLowerCase())
     } catch (error) {
       throw new NotFoundException('User not found')
     }
@@ -37,20 +35,17 @@ export class AuthService {
     }
   }
 
-  async loginBrand(cpf: string, password: string, brandId: string) {
-    let user: UserBrand = undefined
-
+  async loginBrand(
+    cpf: string,
+    password: string,
+    brandId: string,
+    userId: string,
+  ) {
     try {
-      user = await this.userBrandService.login(cpf, password, brandId)
+      await this.userBrandService.login(cpf, password, brandId, userId)
     } catch (error) {
       throw new NotFoundException('User not found')
     }
-
-    if (user.password != password) {
-      throw new UnauthorizedException('Invalid password');
-    }
-    delete user.password
-    return user
   }
 
   async validateUser(email: string, pass: string, passedUser: any = undefined) {
