@@ -1,7 +1,8 @@
 import {
+  HttpException,
+  HttpStatus,
   Injectable,
   NotFoundException,
-  UnauthorizedException,
 } from '@nestjs/common'
 import { Wallet } from 'src/wallet/entities/wallet.entity'
 import { WalletService } from 'src/wallet/wallet.service'
@@ -27,7 +28,7 @@ export class UserBrandService {
       const validatedUser = this.validateUser(userBrand, password, brandId, cpf)
 
       if (!validatedUser) {
-        throw new UnauthorizedException('Invalid password')
+        throw new HttpException('Forbidden', HttpStatus.UNAUTHORIZED)
       }
       const wallet: Wallet = {
         linkedEntityId: brandId,
@@ -48,7 +49,10 @@ export class UserBrandService {
         if (walletFiltered.length == 0) {
           await this.walletService.create(wallet)
         } else {
-          throw new UnauthorizedException('Wallet already created')
+          throw new HttpException(
+            'Wallet already created',
+            HttpStatus.BAD_REQUEST,
+          )
         }
       } else {
         await this.walletService.create(wallet)
