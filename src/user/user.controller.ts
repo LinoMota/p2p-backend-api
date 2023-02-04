@@ -16,7 +16,7 @@ import { UpdateUserDto } from './dto/update-user.dto'
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard'
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger'
 import { LoginUserDto } from './dto/login-user.dto'
-import { LoginUserBrandDto } from './dto/login-user-brand.dto'
+import { LoginUserBrandDto } from 'src/user-brand/dto/login-user-brand.dto'
 
 @ApiTags('user')
 @Controller('user')
@@ -42,9 +42,9 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   @Post('login-brand')
   loginBrand(@Body() body: LoginUserBrandDto) {
-    const { email, password, brandId } = body
+    const { cpf, password, brandId, userId } = body
 
-    return this.authService.loginBrand(email, password, brandId)
+    return this.authService.loginBrand(cpf, password, brandId, userId)
   }
 
   @ApiBearerAuth('access-token')

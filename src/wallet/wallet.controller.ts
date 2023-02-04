@@ -18,7 +18,7 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard'
 @ApiTags('wallet')
 @ApiBearerAuth('access-token')
 export class WalletController {
-  constructor(private readonly walletService: WalletService) {}
+  constructor(private readonly walletService: WalletService) { }
 
   @UseGuards(JwtAuthGuard)
   @Post()
@@ -30,6 +30,12 @@ export class WalletController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.walletService.findOne(id)
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('user/:id')
+  findByUserId(@Param('id') id: string) {
+    return this.walletService.findWalletByUserId(id)
   }
 
   @UseGuards(JwtAuthGuard)

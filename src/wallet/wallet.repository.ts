@@ -1,11 +1,13 @@
+import { Injectable } from '@nestjs/common'
 import { HttpService } from 'nestjs-http-promise'
 import { PaginationFormat } from 'src/common/paginationFormat'
 import { Wallet } from './entities/wallet.entity'
 
+@Injectable()
 export class WalletRepository {
-  constructor(private readonly httpService: HttpService) {}
+  constructor(private readonly httpService: HttpService) { }
 
-  async find(pagination: PaginationFormat) {
+  async find(pagination: PaginationFormat = new PaginationFormat()) {
     const { data } = await this.httpService.get(`/wallet/`, {
       params: pagination,
     })
@@ -14,6 +16,12 @@ export class WalletRepository {
 
   async findWalletById(id: string) {
     const { data } = await this.httpService.get(`/wallet/${id}`)
+    return data
+  }
+
+  async findWalletByUserId(userId: string) {
+    const { data } = await this.httpService.get(`/wallet/user/${userId}`)
+
     return data
   }
 

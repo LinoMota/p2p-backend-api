@@ -27,7 +27,5 @@ import { UserBrandModule } from './user-brand/user-brand.module'
     UserBrandModule,
   ],
   controllers: [AppController],
-
-
 })
 export class AppModule { }

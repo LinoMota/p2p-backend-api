@@ -8,10 +8,10 @@ import { WalletRepository } from './wallet.repository'
 @Injectable()
 export class WalletService {
   constructor(
+    private readonly walletRepository: WalletRepository,
     private readonly userService: UserService,
     private readonly brandService: BrandService,
-    private readonly walletRepository: WalletRepository,
-  ) {}
+  ) { }
 
   async create(createWalletDto: CreateWalletDto) {
     const { userId, linkedEntityId, type } = createWalletDto
@@ -21,20 +21,21 @@ export class WalletService {
     return await this.walletRepository.createWallet(createWalletDto)
   }
 
-  async find() {
-    return `This action returns all wallet`
+  async findWalletByUserId(userId: string) {
+    try {
+      return await this.walletRepository.findWalletByUserId(userId)
+    } catch (error) {
+      throw new BadRequestException('Wallet not found error')
+    }
   }
 
   async findOne(id: string) {
-    let wallet = null
-
     try {
-      wallet = await this.findOne(id)
+      const wallet = await this.walletRepository.findWalletById(id)
+      return wallet
     } catch (error) {
-      throw new BadRequestException('Wallet not found')
+      throw new BadRequestException('Wallet not found error')
     }
-
-    return wallet
   }
 
   async update(id: string, updateWalletDto: UpdateWalletDto) {
@@ -69,7 +70,7 @@ export class WalletService {
     } else if (type === 'point') {
       try {
         await this.brandService.findOne(linkedEntityId)
-      } catch (error) {}
+      } catch (error) { }
     } else {
       throw new BadRequestException('Invalid wallet type')
     }
