@@ -4,4 +4,5 @@ export class Wallet {
   type: string
   balance: number
   active: boolean
+  id?: string
 }

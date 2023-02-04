@@ -4,7 +4,7 @@ import { Stock } from './entities/stock.entity'
 
 @Injectable()
 export class StockRepository {
-  constructor(private readonly httpService: HttpService) {}
+  constructor(private readonly httpService: HttpService) { }
 
   async find() {
     const { data } = await this.httpService.get(`/stock/`)

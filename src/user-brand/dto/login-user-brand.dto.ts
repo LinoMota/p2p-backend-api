@@ -16,4 +16,9 @@ export class LoginUserBrandDto {
   @IsString()
   @IsNotEmpty()
   brandId: string
+
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  userId: string
 }

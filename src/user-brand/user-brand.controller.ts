@@ -10,11 +10,11 @@ import { UserBrandService } from './user-brand.service'
 export class UserBrandController {
   constructor(private readonly userBrandService: UserBrandService) { }
 
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Post('authenticate')
   authenticate(@Body() body: LoginUserBrandDto) {
-    const { cpf, password, brandId } = body
+    const { cpf, password, brandId, userId } = body
 
-    return this.userBrandService.login(cpf, password, brandId)
+    return this.userBrandService.login(cpf, password, brandId, userId)
   }
 }

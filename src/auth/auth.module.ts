@@ -6,7 +6,6 @@ import { PassportModule } from '@nestjs/passport'
 import { JwtModule } from '@nestjs/jwt'
 import { jwtConfig } from 'src/config/jwt.config'
 import { UserService } from 'src/user/user.service'
-import { UserBrandService } from 'src/user-brand/user-brand.service'
 import { UserBrandModule } from 'src/user-brand/user-brand.module'
 
 @Module({
@@ -21,7 +20,7 @@ import { UserBrandModule } from 'src/user-brand/user-brand.module'
     }),
     JwtModule.register(jwtConfig()),
   ],
-  providers: [JwtStrategy, AuthService, UserService, UserBrandService],
+  providers: [JwtStrategy, AuthService, UserService],
   exports: [PassportModule, AuthService],
 })
-export class AuthModule {}
+export class AuthModule { }
