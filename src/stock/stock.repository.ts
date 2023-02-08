@@ -1,13 +1,16 @@
 import { Injectable } from '@nestjs/common'
 import { HttpService } from 'nestjs-http-promise'
+import { StockFilterDto } from './dto/stock-filter.dto'
 import { Stock } from './entities/stock.entity'
 
 @Injectable()
 export class StockRepository {
   constructor(private readonly httpService: HttpService) { }
 
-  async find() {
-    const { data } = await this.httpService.get(`/stock/`)
+  async find(stockFilter: StockFilterDto) {
+    const { data } = await this.httpService.get(`/stock/`, {
+      params: stockFilter,
+    })
     return data
   }
 

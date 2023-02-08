@@ -3,9 +3,11 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common'
+import { WalletFilterDto } from 'src/wallet/dto/wallet-filter.dto'
 import { Wallet } from 'src/wallet/entities/wallet.entity'
 import { WalletRepository } from 'src/wallet/wallet.repository'
 import { CreateStockDto } from './dto/create-stock.dto'
+import { StockFilterDto } from './dto/stock-filter.dto'
 import { UpdateStockDto } from './dto/update-stock.dto'
 import { StockRepository } from './stock.repository'
 
@@ -19,15 +21,12 @@ export class StockService {
   async create(createStockDto: CreateStockDto) {
     try {
       if (createStockDto.type == 'out') {
-        const finded = await this.walletRepository.findWalletByUserId(
-          createStockDto.userId,
-        )
+        const filter: WalletFilterDto = { userId: createStockDto.userId }
+        const finded = await this.walletRepository.findWallet(filter)
 
-        const walletFiltered: Wallet = [finded].filter(
+        const walletFiltered: Wallet = finded.filter(
           (e) => e.linkedEntityId === createStockDto.brandId,
         )?.[0]
-
-        console.log(walletFiltered, 'walletFiltered')
 
         const newBalance = walletFiltered.balance - createStockDto.quantity
 
@@ -53,8 +52,8 @@ export class StockService {
     }
   }
 
-  async find() {
-    return await this.stockRepository.find()
+  async find(stockFilter: StockFilterDto) {
+    return await this.stockRepository.find(stockFilter)
   }
 
   async findOne(id: string) {

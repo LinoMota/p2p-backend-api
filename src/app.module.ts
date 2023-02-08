@@ -9,6 +9,7 @@ import { BrandModule } from './brand/brand.module'
 import { WalletModule } from './wallet/wallet.module'
 import { ViaCepModule } from './via-cep/via-cep.module'
 import { UserBrandModule } from './user-brand/user-brand.module'
+import { NegotiationModule } from './negotiation/negotiation.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { UserBrandModule } from './user-brand/user-brand.module'
     WalletModule,
     ViaCepModule,
     UserBrandModule,
+    NegotiationModule,
   ],
   controllers: [AppController],
 })

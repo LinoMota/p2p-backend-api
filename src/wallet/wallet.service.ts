@@ -3,6 +3,7 @@ import { BrandService } from 'src/brand/brand.service'
 import { UserService } from 'src/user/user.service'
 import { CreateWalletDto } from './dto/create-wallet.dto'
 import { UpdateWalletDto } from './dto/update-wallet.dto'
+import { WalletFilterDto } from './dto/wallet-filter.dto'
 import { WalletRepository } from './wallet.repository'
 
 @Injectable()
@@ -21,13 +22,6 @@ export class WalletService {
     return await this.walletRepository.createWallet(createWalletDto)
   }
 
-  async findWalletByUserId(userId: string) {
-    try {
-      return await this.walletRepository.findWalletByUserId(userId)
-    } catch (error) {
-      throw new BadRequestException('Wallet not found error')
-    }
-  }
 
   async findOne(id: string) {
     try {
@@ -46,6 +40,10 @@ export class WalletService {
     await this.validateWalletRules(userId, linkedEntityId, type)
 
     return await this.walletRepository.updateWallet(id, updateWalletDto)
+  }
+
+  async findWallet(walletFilterDto: WalletFilterDto) {
+    return await this.walletRepository.findWallet(walletFilterDto)
   }
 
   async remove(id: string) {
