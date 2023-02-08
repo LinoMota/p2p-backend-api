@@ -26,7 +26,21 @@ export class UserBrandService {
     try {
       const userBrand = await this.userBrandRepository.login(cpf)
 
-      const validatedUser = this.validateUser(userBrand, password, brandId, cpf)
+      if (userBrand.length == 0) {
+        throw new HttpException(
+          'Wallet already created',
+          HttpStatus.BAD_REQUEST,
+        )
+      }
+
+      const findedUserBrand = userBrand.filter((e) => e.brandId == brandId)[0]
+
+      const validatedUser = this.validateUser(
+        findedUserBrand,
+        password,
+        brandId,
+        cpf,
+      )
 
       if (!validatedUser) {
         throw new HttpException('Forbidden', HttpStatus.UNAUTHORIZED)
@@ -35,7 +49,7 @@ export class UserBrandService {
         linkedEntityId: brandId,
         userId: _userId,
         type: 'point',
-        balance: userBrand.totalPoints,
+        balance: findedUserBrand.totalPoints,
         active: true,
       }
 
@@ -45,10 +59,15 @@ export class UserBrandService {
       const userWallets = await this.walletService.findWallet(filter)
 
       if (userWallets != null && userWallets != '') {
-        const walletFiltered: Wallet[] = [userWallets].filter(
+        const walletUserFiltered: Wallet[] = userWallets.filter(
           (e) => e.userId === _userId,
         )
-        if (walletFiltered.length == 0) {
+
+        const findedBrand: Wallet[] = walletUserFiltered.filter(
+          (e) => e.linkedEntityId == brandId,
+        )
+
+        if (findedBrand.length == 0) {
           await this.walletService.create(wallet)
         } else {
           throw new HttpException(
