@@ -4,6 +4,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common'
+import { WalletFilterDto } from 'src/wallet/dto/wallet-filter.dto'
 import { Wallet } from 'src/wallet/entities/wallet.entity'
 import { WalletService } from 'src/wallet/wallet.service'
 import { UserBrand } from './entities/user-brand.entity'
@@ -38,7 +39,10 @@ export class UserBrandService {
         active: true,
       }
 
-      const userWallets = await this.walletService.findWalletByUserId(_userId)
+      const filter: WalletFilterDto = {
+        userId: _userId,
+      }
+      const userWallets = await this.walletService.findWallet(filter)
 
       if (userWallets != null && userWallets != '') {
         const walletFiltered: Wallet[] = [userWallets].filter(

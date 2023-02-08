@@ -7,12 +7,14 @@ import {
   Delete,
   UseGuards,
   Put,
+  Query,
 } from '@nestjs/common'
 import { WalletService } from './wallet.service'
 import { CreateWalletDto } from './dto/create-wallet.dto'
 import { UpdateWalletDto } from './dto/update-wallet.dto'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard'
+import { WalletFilterDto } from './dto/wallet-filter.dto'
 
 @Controller('wallet')
 @ApiTags('wallet')
@@ -33,9 +35,9 @@ export class WalletController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('user/:id')
-  findByUserId(@Param('id') id: string) {
-    return this.walletService.findWalletByUserId(id)
+  @Get()
+  getWallet(@Query() walletFilterDto: WalletFilterDto) {
+    return this.walletService.findWallet(walletFilterDto)
   }
 
   @UseGuards(JwtAuthGuard)
