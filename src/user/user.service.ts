@@ -11,7 +11,7 @@ import { UserRepository } from './user.repository'
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(private readonly userRepository: UserRepository) { }
 
   async findUserByEmail(email: string, removePassword = false): Promise<User> {
     const user = await this.userRepository.findUserByEmail(email)
@@ -40,7 +40,7 @@ export class UserService {
       if (user) {
         throw new BadRequestException('User already exists')
       }
-    } catch (error) {}
+    } catch (error) { }
 
     return await this.userRepository.createUser(createUserDto)
   }

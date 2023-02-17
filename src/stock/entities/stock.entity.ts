@@ -4,7 +4,7 @@ export class Stock {
   type: 'in' | 'out'
   quantity: number
   paymentMethod: 'card' | 'transfer' | 'pix'
-  state: 'COMPLETED' | 'PENDING' | 'CANCELED' | 'OPEN'
+  state: 'COMPLETED' | 'PENDING' | 'CANCELED' | 'OPEN' | 'NEGOTIATION'
   value: number
   createdAt: string
 }

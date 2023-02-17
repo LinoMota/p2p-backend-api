@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { HttpService } from 'nestjs-http-promise'
 import { PaginationFormat } from 'src/common/paginationFormat'
+import { StockFilterDto } from 'src/stock/dto/stock-filter.dto'
 import { User } from './entities/user.entity'
 
 @Injectable()
