@@ -18,5 +18,10 @@ export class StockFilterDto {
   @IsIn(['in', 'out'])
   type: 'in' | 'out'
 
-
+  @IsString()
+  @ApiPropertyOptional({
+    enum: ['COMPLETED', 'PENDING', 'CANCELED', 'OPEN'],
+  })
+  @IsIn(['COMPLETED', 'PENDING', 'CANCELED', 'OPEN'])
+  state: string
 }

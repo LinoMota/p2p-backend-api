@@ -17,6 +17,7 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard'
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger'
 import { LoginUserDto } from './dto/login-user.dto'
 import { LoginUserBrandDto } from 'src/user-brand/dto/login-user-brand.dto'
+import { StockFilterDto } from 'src/stock/dto/stock-filter.dto'
 
 @ApiTags('user')
 @Controller('user')
