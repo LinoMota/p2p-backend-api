@@ -19,6 +19,6 @@ export class CreateNegotiationDto {
 
     @IsString()
     @ApiPropertyOptional()
-    @IsIn(['ACCEPTED', , 'DECLINED'])
+    @IsIn(['ACCEPTED', 'OPEN', 'DECLINED', 'CANCELED'])
     status: string
 }

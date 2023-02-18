@@ -20,14 +20,17 @@ export default class NegotiationRepository {
         const { data } = await this.httpService.get(`/negotiation/`, {
             params: negotiationFilterDto,
         })
-
-        console.log("DATA", data);
-
         return data
     }
 
-    //   async findOne(id: string) {
-    //     const { data } = await this.httpService.get(`/brand/${id}`)
-    //     return data
-    //   }
+    async update(id: string, negotiationFilterDto: NegotiationFilterDto) {
+        console.log("adasda", negotiationFilterDto, id);
+
+        const { data } = await this.httpService.patch(`/negotiation/${id}`,
+            negotiationFilterDto
+        );
+        return data
+    }
+
+
 }

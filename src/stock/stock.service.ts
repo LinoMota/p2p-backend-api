@@ -139,6 +139,7 @@ export class StockService {
           ...currentStock,
           state: 'COMPLETED',
         })
+        // update negotiations for this stock
       }
     } catch (error) { }
   }

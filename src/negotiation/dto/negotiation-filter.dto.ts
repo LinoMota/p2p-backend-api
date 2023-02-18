@@ -1,22 +1,26 @@
 import { ApiPropertyOptional } from '@nestjs/swagger'
 
-import { IsIn, IsString } from 'class-validator'
+import { IsIn, IsNumber, IsString } from 'class-validator'
 
 export class NegotiationFilterDto {
   @IsString()
   @ApiPropertyOptional()
-  requestedOrder: string
+  requestedOrder?: string
 
   @IsString()
   @ApiPropertyOptional()
-  userNegociating: string
+  userNegociating?: string
 
   @IsString()
   @ApiPropertyOptional()
-  id: string
+  id?: string
 
   @IsString()
   @ApiPropertyOptional()
-  @IsIn(['ACCEPTED', 'DECLINED'])
-  status: string
+  @IsIn(['ACCEPTED', 'OPEN', 'DECLINED', 'CANCELED'])
+  status?: string
+
+  @IsNumber()
+  @ApiPropertyOptional()
+  value?: number
 }
