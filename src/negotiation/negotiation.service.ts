@@ -66,26 +66,26 @@ export class NegotiationService {
           currentNegotiation.requestedOrder,
         )
       if (finishDto.status == 'ACCEPTED') {
-        // if (currentStock.state != 'OPEN') {
-        //   await this.negotiationRepository.update(currentNegotiation.id, {
-        //     status: 'CANCELED',
-        //   })
-        //   throw new HttpException(
-        //     'not_open_negotiation_stock',
-        //     HttpStatus.BAD_REQUEST,
-        //   )
-        // }
+        if (currentStock.state != 'OPEN') {
+          await this.negotiationRepository.update(currentNegotiation.id, {
+            status: 'CANCELED',
+          })
+          throw new HttpException(
+            'not_open_negotiation_stock',
+            HttpStatus.BAD_REQUEST,
+          )
+        }
         const updateNegotiation = { status: 'ACCEPTED' }
-        // await this.negotiationRepository.update(
-        //   currentNegotiation.id,
-        //   updateNegotiation,
-        // )
+        await this.negotiationRepository.update(
+          currentNegotiation.id,
+          updateNegotiation,
+        )
 
         const updateStock: UpdateStockDto = { state: 'COMPLETED' }
-        // await this.stockRepository.updateStock(
-        //   currentNegotiation.requestedOrder,
-        //   updateStock,
-        // )
+        await this.stockRepository.updateStock(
+          currentNegotiation.requestedOrder,
+          updateStock,
+        )
         const currentWallet: Wallet[] = await this.walletRepository.findWallet({
           linkedEntityId: currentStock.brandId,
           userId: currentStock.userId,
@@ -140,8 +140,6 @@ export class NegotiationService {
           status: 'DECLINED',
         })
       }
-
-      // console.log('status', stock)
     } catch (error) {
       throw error
     }
