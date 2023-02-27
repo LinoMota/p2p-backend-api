@@ -15,7 +15,7 @@ export class UserBrandService {
   constructor(
     private readonly userBrandRepository: UserBrandRepository,
     private readonly walletService: WalletService,
-  ) { }
+  ) {}
 
   async login(
     cpf: string,
@@ -79,10 +79,7 @@ export class UserBrandService {
         await this.walletService.create(wallet)
       }
     } catch (error) {
-      if (error) {
-        return error
-      }
-      throw new NotFoundException('User not found')
+      throw error
     }
   }
 
