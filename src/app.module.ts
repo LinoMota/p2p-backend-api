@@ -9,7 +9,8 @@ import { BrandModule } from './brand/brand.module'
 import { WalletModule } from './wallet/wallet.module'
 import { ViaCepModule } from './via-cep/via-cep.module'
 import { UserBrandModule } from './user-brand/user-brand.module'
-import { NegotiationModule } from './negotiation/negotiation.module';
+import { NegotiationModule } from './negotiation/negotiation.module'
+import { HistoryModule } from './history/history.module'
 
 @Module({
   imports: [
@@ -27,7 +28,8 @@ import { NegotiationModule } from './negotiation/negotiation.module';
     ViaCepModule,
     UserBrandModule,
     NegotiationModule,
+    HistoryModule,
   ],
   controllers: [AppController],
 })
-export class AppModule { }
+export class AppModule {}

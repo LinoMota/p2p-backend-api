@@ -6,6 +6,7 @@ import { FarofaApiHttpConfig } from 'src/config/farofaApiHttp.config'
 import { HttpModule } from 'nestjs-http-promise'
 import { StockRepository } from 'src/stock/stock.repository'
 import { WalletRepository } from 'src/wallet/wallet.repository'
+import { HistoryRepository } from 'src/history/history.repository'
 
 @Module({
   imports: [HttpModule.registerAsync({ useClass: FarofaApiHttpConfig })],
@@ -16,6 +17,7 @@ import { WalletRepository } from 'src/wallet/wallet.repository'
     NegotiationRepository,
     StockRepository,
     WalletRepository,
+    HistoryRepository
   ],
   exports: [NegotiationRepository],
 })

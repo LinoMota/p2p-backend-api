@@ -4,6 +4,8 @@ import {
   HttpStatus,
   Injectable,
 } from '@nestjs/common'
+import { CreateHistoryDto } from 'src/history/dto/create-history.dto'
+import { HistoryRepository } from 'src/history/history.repository'
 import { CreateStockDto } from 'src/stock/dto/create-stock.dto'
 import { UpdateStockDto } from 'src/stock/dto/update-stock.dto'
 import { StockRepository } from 'src/stock/stock.repository'
@@ -20,6 +22,7 @@ export class NegotiationService {
     private readonly negotiationRepository: NegotiationRepository,
     private readonly stockRepository: StockRepository,
     private readonly walletRepository: WalletRepository,
+    private readonly history: HistoryRepository,
   ) {}
 
   async create(createNegotiationDto: CreateNegotiationDto) {
@@ -49,10 +52,6 @@ export class NegotiationService {
 
   async finish(id: string, finishDto: FinishNegotiaton) {
     try {
-      // throw new HttpException(
-      //   'not_open_negotiation_stock',
-      //   HttpStatus.BAD_REQUEST,
-      // )
       const currentNegotiationList: NegotiationFilterDto[] =
         await this.negotiationRepository.find({ _id: id })
 
@@ -67,26 +66,26 @@ export class NegotiationService {
           currentNegotiation.requestedOrder,
         )
       if (finishDto.status == 'ACCEPTED') {
-        if (currentStock.state != 'OPEN') {
-          await this.negotiationRepository.update(currentNegotiation.id, {
-            status: 'CANCELED',
-          })
-          throw new HttpException(
-            'not_open_negotiation_stock',
-            HttpStatus.BAD_REQUEST,
-          )
-        }
+        // if (currentStock.state != 'OPEN') {
+        //   await this.negotiationRepository.update(currentNegotiation.id, {
+        //     status: 'CANCELED',
+        //   })
+        //   throw new HttpException(
+        //     'not_open_negotiation_stock',
+        //     HttpStatus.BAD_REQUEST,
+        //   )
+        // }
         const updateNegotiation = { status: 'ACCEPTED' }
-        await this.negotiationRepository.update(
-          currentNegotiation.id,
-          updateNegotiation,
-        )
+        // await this.negotiationRepository.update(
+        //   currentNegotiation.id,
+        //   updateNegotiation,
+        // )
 
         const updateStock: UpdateStockDto = { state: 'COMPLETED' }
-        await this.stockRepository.updateStock(
-          currentNegotiation.requestedOrder,
-          updateStock,
-        )
+        // await this.stockRepository.updateStock(
+        //   currentNegotiation.requestedOrder,
+        //   updateStock,
+        // )
         const currentWallet: Wallet[] = await this.walletRepository.findWallet({
           linkedEntityId: currentStock.brandId,
           userId: currentStock.userId,
@@ -97,7 +96,14 @@ export class NegotiationService {
             linkedEntityId: currentStock.brandId,
             userId: currentNegotiation.userNegociating,
           })
-
+        const historyItem: CreateHistoryDto = {
+          userId: currentStock.userId,
+          value: currentNegotiation.value,
+          quantity: currentStock.quantity,
+          type: currentStock.type,
+          paymentMethod: currentStock.paymentMethod,
+          brandId: currentStock.brandId,
+        }
         if (currentStock.type == 'in') {
           if (currentWallet.length == 1) {
             if (userOfferWallet.length == 1) {
@@ -111,11 +117,14 @@ export class NegotiationService {
                 balance: currentWallet[0].balance + currentStock.quantity,
               })
             }
+            await this.history.createHistory(historyItem)
 
             return 'ok'
           }
         } else {
           if (userOfferWallet.length == 1) {
+            await this.history.createHistory(historyItem)
+
             return await this.walletRepository.updateWallet(
               userOfferWallet[0].id,
               {
