@@ -17,19 +17,20 @@ export class StockService {
   constructor(
     private readonly stockRepository: StockRepository,
     private readonly walletRepository: WalletRepository,
-  ) { }
+  ) {}
 
   async create(createStockDto: CreateStockDto) {
     try {
       if (createStockDto.type == 'out') {
-        const filter: WalletFilterDto = { userId: createStockDto.userId }
+        const filter: WalletFilterDto = {
+          userId: createStockDto.userId,
+          linkedEntityId: createStockDto.brandId,
+        }
         const finded = await this.walletRepository.findWallet(filter)
+        console.log(finded, createStockDto)
 
-        const walletFiltered: Wallet = finded.filter(
-          (e) => e.linkedEntityId === createStockDto.brandId,
-        )?.[0]
-
-        const newBalance = walletFiltered[0].balance - createStockDto.quantity
+        const walletFiltered: Wallet = finded[0]
+        const newBalance = walletFiltered.balance - createStockDto.quantity
 
         if (newBalance <= 0) {
           throw new BadRequestException({ message: 'no wallet balance ' })
@@ -69,13 +70,36 @@ export class StockService {
   }
 
   async update(id: string, updateStockDto: UpdateStockDto) {
-    let stock = await this.findOne(id)
+    let stock: CreateStockDto = await this.findOne(id)
 
     stock = { ...stock, ...updateStockDto }
 
     let updatedUser = undefined
+    console.log(stock)
 
     try {
+      if (updateStockDto.state == 'CANCELED') {
+        const filter: WalletFilterDto = {
+          userId: stock.userId,
+          linkedEntityId: stock.brandId,
+        }
+        const findedWallet = await this.walletRepository.findWallet(filter)
+        if (findedWallet.length <= 0) {
+          throw new BadRequestException({
+            message: 'no wallet for this stock ',
+          })
+        }
+
+        const currentWallet = findedWallet[0]
+
+        if (stock.type == 'out') {
+          await this.walletRepository.updateWallet(currentWallet.id, {
+            ...currentWallet,
+
+            balance: currentWallet.balance + stock.quantity,
+          })
+        }
+      }
       updatedUser = await this.stockRepository.updateStock(id, stock)
     } catch (error) {
       const reason = error.response?.data?.message as string[]
@@ -94,7 +118,6 @@ export class StockService {
       const currentStock = await this.findOne(id)
 
       if (currentStock) {
-        // usuario que esta finalizando a negociação
         const filter: WalletFilterDto = {
           userId: finishStockDto.userId,
           linkedEntityId: currentStock.brandId,
@@ -141,7 +164,7 @@ export class StockService {
         })
         // update negotiations for this stock
       }
-    } catch (error) { }
+    } catch (error) {}
   }
 
   async remove(id: string) {
@@ -149,7 +172,7 @@ export class StockService {
 
     try {
       await this.stockRepository.deleteStock(id)
-    } catch (error) { }
+    } catch (error) {}
 
     return stock
   }

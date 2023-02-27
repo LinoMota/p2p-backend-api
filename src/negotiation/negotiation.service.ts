@@ -4,11 +4,9 @@ import {
   HttpStatus,
   Injectable,
 } from '@nestjs/common'
-import { STATUS_CODES } from 'http'
 import { CreateStockDto } from 'src/stock/dto/create-stock.dto'
 import { UpdateStockDto } from 'src/stock/dto/update-stock.dto'
 import { StockRepository } from 'src/stock/stock.repository'
-import { CreateWalletDto } from 'src/wallet/dto/create-wallet.dto'
 import { Wallet } from 'src/wallet/entities/wallet.entity'
 import { WalletRepository } from 'src/wallet/wallet.repository'
 import { CreateNegotiationDto } from './dto/create-negotiation.dto'
@@ -22,22 +20,18 @@ export class NegotiationService {
     private readonly negotiationRepository: NegotiationRepository,
     private readonly stockRepository: StockRepository,
     private readonly walletRepository: WalletRepository,
-  ) { }
+  ) {}
 
-  async create(createNegotiationDto: Partial<CreateNegotiationDto>) {
+  async create(createNegotiationDto: CreateNegotiationDto) {
     try {
       const currentOrder = await this.stockRepository.findStockById(
         createNegotiationDto.requestedOrder,
       )
-      // if (currentOrder.state != 'OPEN') {
-      //   throw new BadRequestException({
-      //     message: 'stock not support negotiation',
-      //   })
-      // }
-      await this.stockRepository.updateStock(
-        createNegotiationDto.requestedOrder,
-        { ...currentOrder, state: 'NEGOTIATION' },
-      )
+      if (currentOrder.state != 'OPEN') {
+        throw new BadRequestException({
+          message: 'stock not support negotiation',
+        })
+      }
 
       await this.negotiationRepository.create(createNegotiationDto)
     } catch (error) {
@@ -55,12 +49,12 @@ export class NegotiationService {
 
   async finish(id: string, finishDto: FinishNegotiaton) {
     try {
-      throw new HttpException(
-        'not_open_negotiation_stock',
-        HttpStatus.BAD_REQUEST,
-      )
+      // throw new HttpException(
+      //   'not_open_negotiation_stock',
+      //   HttpStatus.BAD_REQUEST,
+      // )
       const currentNegotiationList: NegotiationFilterDto[] =
-        await this.negotiationRepository.find({ id })
+        await this.negotiationRepository.find({ _id: id })
 
       if (currentNegotiationList.length == 0) {
         throw new BadRequestException({ message: 'not found negotiation' })
@@ -68,12 +62,11 @@ export class NegotiationService {
 
       const currentNegotiation: NegotiationFilterDto = currentNegotiationList[0]
 
+      const currentStock: CreateStockDto =
+        await this.stockRepository.findStockById(
+          currentNegotiation.requestedOrder,
+        )
       if (finishDto.status == 'ACCEPTED') {
-        const currentStock: CreateStockDto =
-          await this.stockRepository.findStockById(
-            currentNegotiation.requestedOrder,
-          )
-
         if (currentStock.state != 'OPEN') {
           await this.negotiationRepository.update(currentNegotiation.id, {
             status: 'CANCELED',
@@ -94,25 +87,54 @@ export class NegotiationService {
           currentNegotiation.requestedOrder,
           updateStock,
         )
+        const currentWallet: Wallet[] = await this.walletRepository.findWallet({
+          linkedEntityId: currentStock.brandId,
+          userId: currentStock.userId,
+        })
+
+        const userOfferWallet: Wallet[] =
+          await this.walletRepository.findWallet({
+            linkedEntityId: currentStock.brandId,
+            userId: currentNegotiation.userNegociating,
+          })
 
         if (currentStock.type == 'in') {
-          const currentWallet: Wallet[] =
-            await this.walletRepository.findWallet({
-              linkedEntityId: currentStock.brandId,
-              userId: currentStock.userId,
-            })
-
           if (currentWallet.length == 1) {
-            await this.walletRepository.updateWallet(currentWallet[0].id, {
-              balance: currentWallet[0].balance + currentStock.quantity,
-            })
+            if (userOfferWallet.length == 1) {
+              if (userOfferWallet[0].balance - currentStock.quantity <= 0) {
+                throw new HttpException('not_balance', HttpStatus.BAD_REQUEST)
+              }
+              await this.walletRepository.updateWallet(userOfferWallet[0].id, {
+                balance: userOfferWallet[0].balance - currentStock.quantity,
+              })
+              await this.walletRepository.updateWallet(currentWallet[0].id, {
+                balance: currentWallet[0].balance + currentStock.quantity,
+              })
+            }
+
+            return 'ok'
+          }
+        } else {
+          if (userOfferWallet.length == 1) {
+            return await this.walletRepository.updateWallet(
+              userOfferWallet[0].id,
+              {
+                balance: userOfferWallet[0].balance + currentStock.quantity,
+              },
+            )
           }
         }
       }
 
+      if (finishDto.status == 'DECLINED') {
+        await this.negotiationRepository.update(currentNegotiation.id, {
+          status: 'DECLINED',
+        })
+      }
+
       // console.log('status', stock)
     } catch (error) {
-      throw error;
+      throw error
     }
   }
 

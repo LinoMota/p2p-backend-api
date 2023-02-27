@@ -15,6 +15,11 @@ export class NegotiationFilterDto {
   @ApiPropertyOptional()
   id?: string
 
+
+  @IsString()
+  @ApiPropertyOptional()
+  _id?: string
+
   @IsString()
   @ApiPropertyOptional()
   @IsIn(['ACCEPTED', 'OPEN', 'DECLINED', 'CANCELED'])
