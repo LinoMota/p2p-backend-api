@@ -13,15 +13,17 @@ jobs:
       - name: Deploy ec2
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ env.EC2_HOST }}
-          username: ${{ env.EC2_USERNAME }}
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
+            pm2 stop p2p-backend-api
+            echo "App killed"
             cd /home/ec2-user/pes-apps
-            git fetch
-            git reset --hard origin/master
-            git pull
+            rm -rf p2p-backend-api
+            git clone 
+            cd p2p-backend-api
+            git checkout feature/rework-in-nestjs
             npm install
             npm run build
-            pm2 kill
-            pm2 start --daemon ./dist/main.js --name p2p-backend-api
+            pm2 start npm --name "p2p-backend-api" -- start

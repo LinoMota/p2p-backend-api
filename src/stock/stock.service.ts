@@ -22,22 +22,12 @@ export class StockService {
   async create(createStockDto: CreateStockDto) {
     try {
       if (createStockDto.type == 'out') {
-<<<<<<< Updated upstream
         const filter: WalletFilterDto = {
           userId: createStockDto.userId,
           linkedEntityId: createStockDto.brandId,
         }
         const finded = await this.walletRepository.findWallet(filter)
         console.log(finded, createStockDto)
-=======
-        const finded = await this.walletRepository.findWalletByUserId(
-          createStockDto.userId,
-        )
-
-        const walletFiltered: Wallet = finded
-
-        console.log(walletFiltered, 'walletFiltered')
->>>>>>> Stashed changes
 
         const walletFiltered: Wallet = finded[0]
         const newBalance = walletFiltered.balance - createStockDto.quantity
