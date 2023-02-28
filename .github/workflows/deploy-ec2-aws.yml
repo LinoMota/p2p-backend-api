@@ -18,8 +18,9 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd /home/ec2-user/pes-apps
+            cd p2p-backend-api
             git fetch
-            git reset --hard origin/master
+            git reset --hard
             git pull
             npm install
             npm run build
