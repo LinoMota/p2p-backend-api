@@ -13,15 +13,8 @@ jobs:
       - name: Deploy ec2
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ env.EC2_HOST }}
-          username: ${{ env.EC2_USERNAME }}
+          host: ec2-user
+          username: 18.118.22.233
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd /home/ec2-user/pes-apps
-            git fetch
-            git reset --hard origin/master
-            git pull
-            npm install
-            npm run build
-            pm2 kill
-            pm2 start --daemon ./dist/main.js --name p2p-backend-api
+            ls -la
