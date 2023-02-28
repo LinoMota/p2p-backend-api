@@ -4,7 +4,7 @@ import { environment } from './environment.config'
 export class FarofaApiHttpConfig implements HttpModuleOptionsFactory {
   createHttpOptions() {
     return {
-      timeout: 5000,
+      timeout: 15000,
       baseURL: environment().farofaApiUrl,
     }
   }
