@@ -26,9 +26,9 @@ jobs:
       - name: Deploy ec2
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.KEY }}
+          host: ${{ env.EC2_HOST }}
+          username: ${{ env.EC2_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
           script: |
             cd /home/ec2-user/pes-apps
             git fetch
