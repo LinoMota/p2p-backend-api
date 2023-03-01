@@ -1,6 +1,9 @@
 name: deploy-ec2-aws
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 env:
@@ -17,13 +20,13 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            pm2 kill p2p-backend-api
+            pm2 stop p2p-backend-api
             echo "App killed"
             cd /home/ec2-user/pes-apps
             rm -rf p2p-backend-api
             git clone 
             cd p2p-backend-api
+            git checkout feature/rework-in-nestjs
             npm install
             npm run build
-            pm2 kill
-            pm2 start --daemon ./dist/main.js --name p2p-backend-api
+            pm2 start npm --name "p2p-backend-api" -- start
