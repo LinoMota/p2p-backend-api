@@ -29,5 +29,4 @@ jobs:
             cd p2p-backend-api
             npm install
             npm run build
-            pm2 kill
             pm2 start --daemon ./dist/main.js --name p2p-backend-api
