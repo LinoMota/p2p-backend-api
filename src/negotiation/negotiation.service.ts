@@ -96,11 +96,26 @@ export class NegotiationService {
             linkedEntityId: currentStock.brandId,
             userId: currentNegotiation.userNegociating,
           })
-        const historyItem: CreateHistoryDto = {
+
+        const historyItemCurrentUser: CreateHistoryDto = {
           userId: currentStock.userId,
-          value: currentNegotiation.value,
+          value:
+            currentNegotiation.offeredValue == null
+              ? currentStock.value
+              : currentNegotiation.offeredValue,
           quantity: currentStock.quantity,
           type: currentStock.type,
+          paymentMethod: currentStock.paymentMethod,
+          brandId: currentStock.brandId,
+        }
+        const historyItemUserNegotiation: CreateHistoryDto = {
+          userId: currentNegotiation.userNegociating,
+          value:
+            currentNegotiation.offeredValue == null
+              ? currentStock.value
+              : currentNegotiation.offeredValue,
+          quantity: currentStock.quantity,
+          type: currentStock.type == 'in' ? 'out' : 'in',
           paymentMethod: currentStock.paymentMethod,
           brandId: currentStock.brandId,
         }
@@ -117,13 +132,15 @@ export class NegotiationService {
                 balance: currentWallet[0].balance + currentStock.quantity,
               })
             }
-            await this.history.createHistory(historyItem)
+            await this.history.createHistory(historyItemCurrentUser)
+            await this.history.createHistory(historyItemUserNegotiation)
 
             return 'ok'
           }
         } else {
           if (userOfferWallet.length == 1) {
-            await this.history.createHistory(historyItem)
+            await this.history.createHistory(historyItemCurrentUser)
+            await this.history.createHistory(historyItemUserNegotiation)
 
             return await this.walletRepository.updateWallet(
               userOfferWallet[0].id,

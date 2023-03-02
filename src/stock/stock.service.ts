@@ -27,16 +27,14 @@ export class StockService {
           linkedEntityId: createStockDto.brandId,
         }
         const finded = await this.walletRepository.findWallet(filter)
-        console.log(finded, createStockDto)
 
         const walletFiltered: Wallet = finded[0]
         const newBalance = walletFiltered.balance - createStockDto.quantity
 
         if (newBalance <= 0) {
-          throw new BadRequestException({ message: 'no wallet balance ' })
+          throw new BadRequestException({ message: 'no_wallet_balance' })
         }
         walletFiltered.balance = newBalance
-
         await this.walletRepository.updateWallet(
           walletFiltered.id,
           walletFiltered,
@@ -45,12 +43,9 @@ export class StockService {
 
       return await this.stockRepository.createStock(createStockDto)
     } catch (error) {
-      const reason = error.response?.data?.message as string[]
-      const message = 'Stock not created'
+      console.log(error)
 
-      throw new BadRequestException(
-        reason ? `${message}: ${reason.join(', ')}` : message,
-      )
+      throw error
     }
   }
 

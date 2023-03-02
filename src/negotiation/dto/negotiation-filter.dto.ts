@@ -27,5 +27,5 @@ export class NegotiationFilterDto {
 
   @IsNumber()
   @ApiPropertyOptional()
-  value?: number
+  offeredValue?: number
 }

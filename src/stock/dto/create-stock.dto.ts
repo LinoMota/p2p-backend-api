@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsIn, IsNotEmpty, IsNumber, IsString } from 'class-validator'
+import {
+  IsIn,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  IsPositive,
+} from 'class-validator'
 
 export class CreateStockDto {
   @IsString()
@@ -28,6 +34,11 @@ export class CreateStockDto {
   @ApiProperty()
   @IsIn(['pix', 'card', 'transfer'])
   paymentMethod: 'card' | 'transfer' | 'pix'
+
+  @IsNumber()
+  @IsPositive()
+  @ApiProperty()
+  value: number
 
   @IsString()
   @IsNotEmpty({ message: 'state is required' })
