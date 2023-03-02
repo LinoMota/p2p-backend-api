@@ -24,8 +24,7 @@ jobs:
             echo "App killed"
             cd /home/ec2-user/pes-apps
             rm -rf p2p-backend-api
-            git clone git@github.com:LinoMota/p2p-backend-api.git
-            ./p2p.env.sh
+            git clone git@github.com:LinoMota/p2p-backend-api.git && ./p2p.env.sh
             cd p2p-backend-api
             npm install
             npm run build
