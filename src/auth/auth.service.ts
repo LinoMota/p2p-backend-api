@@ -13,7 +13,7 @@ export class AuthService {
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
     private readonly userBrandService: UserBrandService,
-  ) { }
+  ) {}
 
   async login(email: string, password: string) {
     let user = undefined
@@ -21,6 +21,8 @@ export class AuthService {
     try {
       user = await this.userService.findUserByEmail(email.toLocaleLowerCase())
     } catch (error) {
+      console.log(error)
+
       throw new NotFoundException('User not found')
     }
 
@@ -66,7 +68,7 @@ export class AuthService {
       const user = await this.userService.findUserByEmail(email)
       delete user.password
       return user
-    } catch (error) { }
+    } catch (error) {}
     return null
   }
 }
